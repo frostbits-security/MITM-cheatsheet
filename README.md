@@ -89,7 +89,7 @@ https://github.com/fredericopissarra/t50
 
 **Defence technics**
 
-### Rogue DHCP
+### Rogue DHCP (DHCPv6)
 **Сomplexity:** Low  
 **Relevance:** High  
 **Description:**
@@ -99,7 +99,8 @@ https://github.com/fredericopissarra/t50
 **Defence technics**
 
 ## Wireless
-### Karma attacks
+### Karma attacks (Wi-Fi)
+### Rogue BTS (GSM)
 
 # Attack technics
 ## Data sniffing
