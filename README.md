@@ -34,7 +34,7 @@ A cheat sheet for pentesters and defensive teams about Man In The Middle attacks
 #### Fake WPAD Server
 
 ### Dynamic Trunking Protocol (DTP)
-**Сomplexity:** High  
+**Сomplexity:** Moderate  
 **Relevance:** None  
 **Description:**
 
@@ -45,6 +45,15 @@ A cheat sheet for pentesters and defensive teams about Man In The Middle attacks
 ### NDP spoofing
 **Сomplexity:** Moderate  
 **Relevance:** Close to None  
+**Description:**
+
+**Attack tools**
+
+**Defence technics**
+
+### VLAN hopping
+**Сomplexity:** Moderate  
+**Relevance:** None  
 **Description:**
 
 **Attack tools**
@@ -75,7 +84,7 @@ A cheat sheet for pentesters and defensive teams about Man In The Middle attacks
 **Relevance:** High  
 **Description:**
 
-**Attack tools**
+**Attack tools**  
 https://github.com/fredericopissarra/t50
 
 **Defence technics**
@@ -116,7 +125,8 @@ https://github.com/fredericopissarra/t50
 
 # Hacker notes
 ## Difference between CPU (or why most of that attack imposible from your notebook)
-### Attack device
+### Attack device  
+Possible candidate: MikroTik hAP AC
 
 # SSL strip
 
