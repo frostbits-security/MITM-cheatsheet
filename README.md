@@ -1,5 +1,6 @@
 # MITM_Bible
-All MITM attack in one place.
+We tried to put together all known MITM attacks and methods of protection against these attacks. Here is also contains tools for carrying out MITM attacks, some interesting attack cases and some tricks associated with them.
+
 A cheat sheet for pentesters and defensive teams about Man In The Middle attacks.
 
 ## L2
