@@ -21,6 +21,17 @@ A cheat sheet for pentesters and defensive teams about Man In The Middle attacks
 
 **Defence technics**
 
+### NetBIOS (LLMNR) spoofing
+**Сomplexity:** Low  
+**Relevance:** High  
+**Description:**
+
+**Attack tools**
+
+**Defence technics**
+
+#### Fake WPAD Server
+
 ### Dynamic Trunking Protocol (DTP)
 **Сomplexity:** High  
 **Relevance:** None  
@@ -49,12 +60,22 @@ A cheat sheet for pentesters and defensive teams about Man In The Middle attacks
 
 **Defence technics**
 
-### HSRP (VRRP, CARP)
+### Hijacking HSRP (VRRP, CARP)
 **Сomplexity:** High  
 **Relevance:** High  
 **Description:**
 
 **Attack tools**
+
+**Defence technics**
+
+### Dynamic routing protocol spoofing (EIGRP, OSPF, BGP)
+**Сomplexity:** High  
+**Relevance:** High  
+**Description:**
+
+**Attack tools**
+https://github.com/fredericopissarra/t50
 
 **Defence technics**
 
