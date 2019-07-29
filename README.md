@@ -61,7 +61,7 @@ A cheat sheet for pentesters and defensive teams about Man In The Middle attacks
 **Defence technics**
 
 ## L3
-### SLAAC attack 
+## SLAAC attack 
 **Сomplexity:** High  
 **Relevance:** High  
 **Description:**
@@ -86,6 +86,15 @@ A cheat sheet for pentesters and defensive teams about Man In The Middle attacks
 
 **Attack tools**  
 https://github.com/fredericopissarra/t50
+
+**Defence technics**
+
+### ICMP Redirect
+**Сomplexity:** Moderate  
+**Relevance:** None  
+**Description:**
+
+**Attack tools**
 
 **Defence technics**
 
