@@ -30,7 +30,7 @@ Gratuitous ARPs are useful for four reasons:
 
 Despite the effectiveness of gratuitous ARP, it is particularly insecure because it can be used to assure the remote host that the MAC address of a system on the same network has changed and to specify which address is used now.
 
-The typical example of arp spoofing is below:
+***The typical example of arp spoofing is below:***
 
 Before ARP-spoofing is performed, there are entries in the ARP tables of nodes A and B with IP and MAC addresses of each other. The information is transmitted between nodes A and B.
 
