@@ -155,21 +155,27 @@ Dynamic ARP inspection in cisco systems helps prevent the man-in-the-middle atta
 **L-bit** – On-Link Flag means that prefix, listed in the RA is the local IPv6 address.  
 **M-bit** – Managed Address Config Flag means that host must use a [stateful DHCPv6](http://tools.ietf.org/html/rfc3315) process for configuration – the analogue fro DHCPv4.  
 **O-bit** – Other Config Flag means that there are additional configurations details, except prefix value, prefix length and default router address, which the host can receive from DHCPv6 server. [DHCPv6 Stateless](http://tools.ietf.org/html/rfc3736).  
-<p>The SLAAC process is performed during SLAAC-only and SLAAC+DHCPv6 Stateless configuration. The main problem of this process is that the attacker can craft the rogue RA to give the hosts his own configuration (e.g., to become a default router on the link). All the hosts, which have IPv6 enabled, are potentially vulnerable to SLAAC attacks. Especially in cases, when IPv6 is enabled is OS by default but organization hasn’t deployed  IPv6 in any form.</p>   
-<p>The problem of Rogue RA is covered in [RFC 6104 - Router Advertisement Problem Statement].(https://tools.ietf.org/html/rfc6104) As a solution, IETF proposed a technology called RA Guard, which gives an opportunity to accept legitimate RA from legitimate routers and block malicious RA. There are two main RFCs, which rely to this technology:</p>   
+<p>The SLAAC process is performed during SLAAC-only and SLAAC+DHCPv6 Stateless configuration. The main problem of this process is that the attacker can craft the rogue RA to give the hosts his own configuration (e.g., to become a default router on the link). All the hosts, which have IPv6 enabled, are potentially vulnerable to SLAAC attacks. Especially in cases, when IPv6 is enabled is OS by default but organization hasn’t deployed  IPv6 in any form.</p>  
+
+The problem of Rogue RA is covered in [RFC 6104 - Router Advertisement Problem Statement](https://tools.ietf.org/html/rfc6104) . As a solution, IETF proposed a technology called RA Guard, which gives an opportunity to accept legitimate RA from legitimate routers and block malicious RA. There are two main RFCs, which rely to this technology:   
 
 * [RFC 6105 - IPv6 Router Advertisement Guard](https://tools.ietf.org/html/rfc6105)
-* [RFC 7113 - Implementation Advice for IPv6 Router Advertisement Guard (RA-Guard)](https://tools.ietf.org/html/rfc7113)
+* [RFC 7113 - Implementation Advice for IPv6 Router Advertisement Guard (RA-Guard)](https://tools.ietf.org/html/rfc7113)  
 	
-<p>Cisco has implemented a technology “IPv6 First Hop Security” which is included in Catalyst 6500, 4500, 3850, 3750 and 2960 Series Switches, 7600 Series Routers and Cisco 5700 Series Wireless LAN Controllers. There’s RA Guard, DHCP Guard and also IPv6 Snooping implemented. More information can be found [here](https://www.cisco.com/c/dam/en/us/products/collateral/ios-nx-os-software/enterprise-ipv6-solution/aag_c45-707354.pdf).</p>
-<p>Unfortunately, there are methods of traffic analysis hardening, which breaks performance of protections techniques (e.g. hiding the RA in Hob-By-Hop header). There is a [draft RFC](https://tools.ietf.org/html/draft-gont-v6ops-ra-guard-evasion-01) which describes the evasion of RA Guard. The evasion technique is based on usage of IPv6 packet fragmentation. Some additional recommendations on fragmentation are presented in [RFC 6980 - Security Implications of IPv6 Fragmentation with IPv6 Neighbor Discovery](http://tools.ietf.org/html/rfc6980).</p>
-<p>Another threat in RA comes from the ability to send DNS configuration over RA, so that attacker can spoof it, too: [RFC 6106 - IPv6 Router Advertisement Options for DNS Configuration](http://tools.ietf.org/html/rfc6106).</p>
+Cisco has implemented a technology “IPv6 First Hop Security” which is included in Catalyst 6500, 4500, 3850, 3750 and 2960 Series Switches, 7600 Series Routers and Cisco 5700 Series Wireless LAN Controllers. There’s RA Guard, DHCP Guard and also IPv6 Snooping implemented. More information can be found [here](https://www.cisco.com/c/dam/en/us/products/collateral/ios-nx-os-software/enterprise-ipv6-solution/aag_c45-707354.pdf).  
+
+
+Unfortunately, there are methods of traffic analysis hardening, which breaks performance of protections techniques (e.g. hiding the RA in Hob-By-Hop header). There is a [draft RFC](https://tools.ietf.org/html/draft-gont-v6ops-ra-guard-evasion-01) which describes the evasion of RA Guard. The evasion technique is based on usage of IPv6 packet fragmentation. Some additional recommendations on fragmentation are presented in [RFC 6980 - Security Implications of IPv6 Fragmentation with IPv6 Neighbor Discovery](http://tools.ietf.org/html/rfc6980).  
+
+
+Another threat in RA comes from the ability to send DNS configuration over RA, so that attacker can spoof it, too: [RFC 6106 - IPv6 Router Advertisement Options for DNS Configuration](http://tools.ietf.org/html/rfc6106).  
 
 **Related Monitoring Tools**  
 There are some tools, which can be helpful in rogue RA detection and monitoring:
 
 * [***NDPMon***](http://ndpmon.sourceforge.net/)  
 Allows to choose the following configure options before compilation:
+
 
     --enable-mac-resolv
 	Determine the vendor by OUI in MAC-address.
@@ -185,13 +191,14 @@ Allows to choose the following configure options before compilation:
 * [***Ramond***](http://ramond.sourceforge.net/)  
 	Allows to add MAC-address white list of determined legitimate routers, prefix used for 6to4, and unknown prefixes. Based on this configuration the tool monitors RA traffic to find rogue ones.
 
-* [***6MoN***] (https://www.6monplus.it/)  
+* [***6MoN***](https://www.6monplus.it/)  
+
 	Allows to monitor network state, watching the DAD process and NS messages. DAD stands for  Duplicate Address Discovery and it determines if there is and address duplication conflict on the network. NS stands for Neighbor Solicitation(ICMPv6 type 135) and is used to determine a neighbor on the link.
 
 **Attack Tools**  
 
 * [***suddensix***](https://github.com/Neohapsis/suddensix)  
-It’s a script which presets tools used by the security researcher Alec Waters in his post about SLAAC attack (https://resources.infosecinstitute.com/slaac-attack/).
+It’s a script which presets tools used by the security researcher Alec Waters in his [post about SLAAC attack](https://resources.infosecinstitute.com/slaac-attack/).
 
 * [***EvilFOCA***](https://github.com/ElevenPaths/EvilFOCA)  
 	A C#-written tool with GUI which allows IPv6 attacks, including SLAAC attack, fake DHCPv6 and even SLAAC DoS which means announcing fake routes in multiple RAs on link.
