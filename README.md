@@ -290,11 +290,56 @@ https://github.com/fredericopissarra/t50
 ### DHCP spoofing 
 **Сomplexity:** Moderate  
 **Relevance:** Moderate  
+
 **Description:**
+How DHCP address allocation works (in short):
+ - The client sends a broadcast network packet (DHCPDISCOVER) to find a
+   DHCP server on the network. 
+ -  The server receives a request from the
+   client and sends an offer packet (DHCPOFFER) to the client.  
+ - The client sends a request for network settings (DHCPREQUEST) to the
+   server. 
+ - The client sends a request for network settings (DHCPREQUEST) to the server. 
+ - The server sends a confirmation to the client (DHCPACK).
+ 
+ Client specifies his MAC address in the chaddr (Client MAC
+   address) field In the DHCPDISCOVER and DHCPREQUEST requests, so
+   server know the client MAC address and sends a confirmation to the
+   client (DHCPACK).  
+  The attacker's task is to configure a fake DHCP server on the network to provide DHCP addresses to clients. The purpose of this attack is to **use the attacker's host or device as the default gateway** and to force clients to use a false Domain Name Service (DNS) and a Windows Internet name service (WINS server) configured by the attacker.
+
+**Conditions of success:**
+
+ - The client receives an IP address from a Rogue DHCP server faster
+   than from a legitimate DHCP server. 
+ - The legitimate server has exhausted the pool of addresses to be issued.
+
+ **DHCP Starvation attack**: 
+
+ - The attacker requests an IP address from the DHCP server and receives it
+  - The MAC address of the attacker changes and it requests the next, different IP address, masked as a new client
+ - These actions are repeated until the entire pool of IP addresses on the server is   exhausted.
 
 **Attack tools**
+ - yersinia [some tutorial](https://kalilinuxtutorials.com/yersinia/)
+ - nmap to find DHCP server (nmap -n --script=broadcast-dhcp-discover)
+ 
 
 **Defence technics**
+
+- *Enable DHCP snooping*
+
+This is a L2 switch function designed to protect against DHCP attacks. For example, a DHCP spoofing attack or DHCP starvation attack.
+On Cisco Switches:
+***Switch(config)#ip dhcp snooping vlan 10*** - enable DHCP snooping for vlan10 
+***Switch(config)# interface fa 0/1*** - go to the settings of the specific interface
+***Switch(config-if)#ip dhcp snooping trust*** - setting up trusted ports on the interface (by default all ports are unreliable, the DHCP server should not be connected to them).
+***Switch(config)#ip dhcp-server 10.84.168.253*** - Specify the address of the trusted DHCP server, which is accessible through the trusted port.
+**Important.** By default, after enabling DHCP snooping, the switch is enabled to check for MAC address matching. The switch checks whether the MAC address in the DHCP request matches the client's MAC address. If they do not match, the switch discards the packet.
+
+
+**Useful links**  
+- [DHCP wireshark sample](https://wiki.wireshark.org/SampleCaptures?action=AttachFile&do=view&target=dhcp.pcap)
 
 ### Rogue DHCP (DHCPv6)
 **Сomplexity:** Low  
