@@ -109,7 +109,7 @@ As a result, an attacker can perform LLMNR/NBNS spoofing and provide the victim 
 
 [Quick tutorial to grab clear text credentials](https://www.trustedsec.com/2013/07/wpad-man-in-the-middle-clear-text-passwords/)
 
-[How Microsoft Windows’s name resolution services work and how they can be abused.(https://trelis24.github.io/2018/08/03/Windows-WPAD-Poisoning-Responder/)
+[How Microsoft Windows’s name resolution services work and how they can be abused](https://trelis24.github.io/2018/08/03/Windows-WPAD-Poisoning-Responder/)
 
 
 **Attack tools**
