@@ -397,6 +397,51 @@ On Cisco Switches:
 
 ## Wireless
 ### Karma attacks (Wi-Fi)
+
+**Сomplexity:** Low  
+**Relevance:** High  
+**Description:**
+
+The KARMA attack uses the peculiarities of the clients who send requests to determine which wireless networks are nearby. 
+
+The Wi-Fi Access Point periodically sends a beacon request indicating the network SSID that identifies the Wi-Fi network. When a client receives a beacon frame with an SSID that it remembers, it can be associated with the wireless network.
+Vulnerable client devices broadcast a "preferred network list" (PNL), which contains the SSIDs of access points to which they have previously connected and are willing to automatically reconnect without user intervention. These broadcasts may be received by any WiFi access point in range. The KARMA attack consists in an access point receiving this list and then giving itself an SSID from the PNL, thus becoming an evil twin of an access point already trusted by the client.
+
+As a result, the client connects to a different network than the one the user expects. And now the attacker can perform MITM or other attacks on the client system.
+
+***However, nowadays***, most modern network managers have taken countermeasures against the KARMA attack by switching to passive scanning; instead of arbitrarily sending probe request frames, network managers now wait to receive a beacon frame with a familiar ESSID before associating with a wireless network. While this countermeasure has hampered the effectiveness of the KARMA attack, the second feature exploited by KARMA, the Auto-Connect flag that enables the stations to automatically join previously connected networks, was left intact in almost every modern Operating System.
+
+An attacker that can guess the SSID  in the victim device's Preferred Network List, will be able to broadcast the corresponding beacon frame and have that device automatically associate with an attacker-controlled access point. In a more sophisticated version of the attack, the adversary may use a "dictionary" of common SSIDs, that the victim has likely connected to in the past.
+
+[How does a KARMA attack work?](https://www.justaskgemalto.com/en/karma-attack-work-former-ethical-hacker-jason-hart-explains/)
+
+**Attack tools**
+
++ ***[Wifiphisher](https://github.com/wifiphisher/wifiphisher)***
+
+The Rogue Access Point Framework 
+
++ ***[hostapd-mana](https://github.com/sensepost/hostapd-mana/)***
+
+Hostapd-mana is a featureful rogue wifi access point tool. It can be used for a myriad of purposes from tracking and deanonymising devices (aka Snoopy), gathering corporate credentials from devices attempting EAP (aka WPE) or attracting as many devices as possible to connect to perform MitM attacks.
+
++ ***[WIFI PINEAPPLE](https://shop.hak5.org/products/wifi-pineapple)***
+
+The rogue access point and WiFi pentest toolkit. 
+
+How to reinforce the MK5 Karma attack with the Dogma PineAP module [here](https://www.hak5.org/episodes/hak5-gear/the-next-gen-rogue-access-point-pineap)
+
++ ***[FruityWIFI](http://fruitywifi.com/index_eng.html)***
+
+FruityWiFi is an open source tool to audit wireless networks. It allows the user to deploy advanced attacks by directly using the web interface or by sending messages to it.
+
+Initialy the application was created to be used with the Raspberry-Pi, but it can be installed on any Debian based system.
+
+**Defence technics**
+
+*In process*
+
+
 ### Rogue BTS (GSM)
 
 # Attack technics
