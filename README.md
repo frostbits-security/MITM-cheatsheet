@@ -231,6 +231,7 @@ Allows to choose the following configure options before compilation:
     --enable-webinterface
 	Post html reports (some web server required as nginx/apache).
 
+
 * [***Ramond***](http://ramond.sourceforge.net/)  
 	Allows to add MAC-address white list of determined legitimate routers, prefix used for 6to4, and unknown prefixes. Based on this configuration the tool monitors RA traffic to find rogue ones.
 
@@ -262,6 +263,7 @@ The simpliest way to mitigate SLAAC-attacks is to just disable IPv6 on all hosts
 	net.ipv6.conf.default.accept_ra=0  
 	net.ipv6.conf.all.accept_ra=0  
 	net.ipv6.conf.eth0.accept_ra=0  
+
 
 <u>For Mac-OS</u> there is a [guide for IPv6 hardening](http://www.ipv6now.com.au/primers/ERNW_Hardening_IPv6_MacOS-X_v1_0.pdf). But the author faced a problem with parameter responsible for acceptance of RAs in Mac-OS: net.inet6.ip6.accept_rtadv must be set to 0 but its impossible. It’s called deprecated in kernel source code and is defined as read-only, but Mac-OS keeps accepting RAs. So, in Mac-OS it’s not possible to disable RAs through sysctl. The one thing that can be done is setting up the maximum number of acceptable prefixes and maximum number of acceptable default routers to 1.  
 
@@ -310,7 +312,7 @@ The [4th section of RFC 6104](https://tools.ietf.org/html/rfc6104#section-4) has
 
 **Defence technics**
 
-### Dynamic routing protocol spoofing (EIGRP, OSPF, BGP)
+### Dynamic routing protocol spoofing (OSPF, BGP)
 **Сomplexity:** High  
 **Relevance:** High  
 **Description:**
@@ -319,6 +321,43 @@ The [4th section of RFC 6104](https://tools.ietf.org/html/rfc6104#section-4) has
 https://github.com/fredericopissarra/t50
 
 **Defence technics**
+
+### EIGRP Non-legitimate Updates
+**Complexity:**Medium  
+**Relevance:**Medium  
+**Conditions:**EIGRP protocol implemented on the network; no EIGRP messages authentication set up  
+**Description:**  
+EIGRP stands for Enhanced Interior Gateway Routing Protocol. It is a proprietary Cisco’s distance vector routing protocol, relying on Diffused Update Algorithm - DUAL. The main purpose of this protocol is to dynamically update the routing table and propagate the routes to other routers. There are 5 main message types, used in EIGRP:  
+* **Hello** - message is used to discover neighbors. The message is sent to the special IPv4 "All EIGRP routers" multicast 224.0.0.10.  
+* **Update** - this message contains information about changed route. This message can be sent both unicast and multicast. If this message is received by the other router, it sends ACK message as a response.  
+* **Query** - when the router doesn't have fesible accessor for the destination, it sends Query message to its neighbors to ask if they have one. Usualy Query packets are sent multicast, but can also be unicast. When the router gets Query packet, it answers with ACK.
+* **Reply** - it's a reply packet for the Query packet. When router gets Reply, it answers with ACK.
+* **ACK** - the packet is used to confirm receipt of Update, Query and Reply packets. It's sent unicast and has ACK-number in it.  
+The main security issue is possible in case of spoofing data in **Update** message, e.g. to inject a non-legitimate route. In this case the router's routing table gets changed to make it pass the traffic through the device, controlled by the attacker and so the MitM attack is present.  
+
+**Attack tools**  
+* [**Eigrp Tools**](http://www.hackingciscoexposed.com/?link=tools)  
+A perl script which allows to craft EIGRP packets and send them on network. It even allows set the K1-K4 metrics, all the flags and fields of EIGRP packet. The script requires ``` libnet-rawip-perl``` and ```libnetpacket-perl``` packets to be installed. Some examples of usage:  
+
+
+	./eigrp.pl --sniff --iface eth0  
+	  perform a sniff on eth0 interface  
+	./eigrp.pl --file2ip update.dat --source 192.168.7.8  
+	  replay the traffic from file  
+	./eigrp.pl --update --external --as 65534 --source 192.168.7.8  
+	  send and Update message  
+
+
+* [**EIGRP Security Tool**](https://sourceforge.net/projects/eigrpsectool/)  
+A python script, which allows to craft and send different EIGRP packets. The problem is that attempts to launch the script were unsuccessful due to lack of scapy_eigrp module which wasn't found. Also authors didn't write any documentation for the tool even in the 
+[research description](https://docs.google.com/document/d/1ZVNwi5KRkbY_PxMoODTvwSh3qpzdqiRM9Q4qppP2DvE/edit).
+
+
+**Defence techniques**  
+To protect a network from untrusted route propagations, EIGRP provides a mechanism for authenticating router updates. It uses MD5-keyed digest to sign each packet to prevent unauthorized devices from sending updates to the network. It protects legitimate routers from non-legitimate router updates and from router spoofing. The key is just a defined string, which must be set on other devices which are meant to be legitimate. The detailed guide on EIGRP MD5 Authentication setup can be found [here](https://www.cisco.com/c/en/us/support/docs/ip/enhanced-interior-gateway-routing-protocol-eigrp/82110-eigrp-authentication.html#maintask1).  
+Unfortunately, MD5 is acknowledged to be a weak hashing algorithm due to hash collisions. Cisco devices also support ```hmac-sha-256``` EIGRP Updates Authentification. The hash collision attack on SHA-256 is much more complex than for MD5. The guide to EIGRP HMAC-SHA-256 Authentication can be found [here](https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/iproute_eigrp/configuration/15-mt/ire-15-mt-book/ire-sha-256.pdf).  
+The stub EIGRP routing area can be set up as it let's determine the types of routes the stub router should receive queries or not. More information on EIGRP Stub Routing can be found [here](https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/iproute_eigrp/configuration/15-mt/ire-15-mt-book/ire-eigrp-stub-rtg.html).  
+Another best practice to reduce unwanted traffic in a network is to set up passive interfaces. ```passive-interface``` feature should be set on access interfaces, which communicate not to network devices, but to end devices. The instruction on setting ```passive-interface``` on EIGRP and explaination on how it works is presented in [Cisco's documentation page](https://www.cisco.com/c/en/us/support/docs/ip/enhanced-interior-gateway-routing-protocol-eigrp/13675-16.html).  
 
 ### ICMP Redirect
 **Сomplexity:** Moderate  
