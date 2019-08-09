@@ -184,17 +184,6 @@ Inveigh is a PowerShell ADIDNS/LLMNR/NBNS/mDNS/DNS spoofer and man-in-the-middle
 * default router link address;  
 * DNS server link address (in case of SLAAC-only).    
 
-<p>There are 3 major ways of network configuration in IPv6:</p>
-
-**SLAAC only** – IPv6 host uses prefix value, prefix length, default router address and DNS server address, which are present in RA message received from router.  
-**SLAAC+DHCPv6** – it’s a stateless scheme, too, but IPv6 host takes only prefix value, prefix length and default router address from RA. The rest of configuration information, like DNS server address is meant to be received from DHCPv6 server, which, in this case, is used as an “extra database” to keep additional information.   
-**DHCPv6** – the way of configuration which is a stateful method and an analogue of DHCPv4.  
-<p>The way the host must receive its network configuration is determined by the host from the router’s RA. There are 4 flags which do the job:</p>
-
-**A-bit** – Autonomous Address Autoconfiguration Flag means that host must use [SLAAC process](http://tools.ietf.org/html/rfc4862) to receive the network configuration.  
-**L-bit** – On-Link Flag means that prefix, listed in the RA is the local IPv6 address.  
-**M-bit** – Managed Address Config Flag means that host must use a [stateful DHCPv6](http://tools.ietf.org/html/rfc3315) process for configuration – the analogue fro DHCPv4.  
-**O-bit** – Other Config Flag means that there are additional configurations details, except prefix value, prefix length and default router address, which the host can receive from DHCPv6 server. [DHCPv6 Stateless](http://tools.ietf.org/html/rfc3736).  
 <p>The SLAAC process is performed during SLAAC-only and SLAAC+DHCPv6 Stateless configuration. The main problem of this process is that the attacker can craft the rogue RA to give the hosts his own configuration (e.g., to become a default router on the link). All the hosts, which have IPv6 enabled, are potentially vulnerable to SLAAC attacks. Especially in cases, when IPv6 is enabled is OS by default but organization hasn’t deployed  IPv6 in any form.</p>  
 
 The problem of Rogue RA is covered in [RFC 6104 - Router Advertisement Problem Statement](https://tools.ietf.org/html/rfc6104) . As a solution, IETF proposed a technology called RA Guard, which gives an opportunity to accept legitimate RA from legitimate routers and block malicious RA. There are two main RFCs, which rely to this technology:   
@@ -255,7 +244,7 @@ The simpliest way to mitigate SLAAC-attacks is to just disable IPv6 on all hosts
 
 [RFC 6104 - Rogue IPv6 Router Advertisement Problem Statement](https://tools.ietf.org/html/rfc6104) presents 10 basic ideas to solve the problem of Rogue RA. So the section above is just a brief overview of what IETF has to offer as a solution for today:  
 * **Manual Configuration** of IPv6 address and disabling autoconfiguration for RA messages to be ignored.   
-<u>For Linux</u> systems net.ipv6.conf.* values can be changed:
+<u>For Linux</u> systems net.ipv6.conf.* values can be changed:  
 
 
 	net.ipv6.conf.all.autoconf = 0  
