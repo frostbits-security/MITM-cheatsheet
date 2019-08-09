@@ -206,19 +206,19 @@ Another threat in RA comes from the ability to send DNS configuration over RA, s
 There are some tools, which can be helpful in rogue RA detection and monitoring:
 
 * [***NDPMon***](http://ndpmon.sourceforge.net/)  
-Allows to choose the following configure options before compilation:
+Allows to choose the following configure options before compilation:  
 
 
-    --enable-mac-resolv
-	Determine the vendor by OUI in MAC-address.
-    --enable-countermeasures
-	Functionality of response to attacks (no described to which ones and how).
-    --enable-syslogfilter
-	Save syslog to /var/log/ndpmon.lo .
-    --enable-lnfq
-	Use libnetfilter_queue instead of PCAP (have some requirements to be installed and ip6tables rules).
-    --enable-webinterface
-	Post html reports (some web server required as nginx/apache).
+	--enable-mac-resolv
+	  Determine the vendor by OUI in MAC-address.
+	--enable-countermeasures
+	  Functionality of response to attacks (no described to which ones and how).
+	--enable-syslogfilter
+	  Save syslog to /var/log/ndpmon.lo .
+	--enable-lnfq
+	  Use libnetfilter_queue instead of PCAP (have some requirements to be installed and ip6tables rules).
+	--enable-webinterface
+	  Post html reports (some web server required as nginx/apache).
 
 
 * [***Ramond***](http://ramond.sourceforge.net/)  
