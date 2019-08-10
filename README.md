@@ -379,6 +379,7 @@ The purpose of this attack is to **use the attacker's host or device as the defa
  - These actions are repeated until the entire pool of IP addresses on the server is   exhausted.
 
 **Attack tools for DHCP starvation**
+- [DHCPig](https://github.com/kamorin/DHCPig)
 - nmap to find DHCP server (nmap -n --script=broadcast-dhcp-discover)
 - metasploit modules [some example](https://digi.ninja/metasploit/dns_dhcp.php)
 - use scapy for DHCP starvation attack [example](https://github.com/shreyasdamle/DHCP-Starvation-)
