@@ -378,10 +378,16 @@ The purpose of this attack is to **use the attacker's host or device as the defa
   - The MAC address of the attacker changes and it requests the next, different IP address, masked as a new client
  - These actions are repeated until the entire pool of IP addresses on the server is   exhausted.
 
-**Attack tools**
+**Attack tools for DHCP starvation**
+- nmap to find DHCP server (nmap -n --script=broadcast-dhcp-discover)
+- metasploit modules [some example](https://digi.ninja/metasploit/dns_dhcp.php)
+- use scapy for DHCP starvation attack [example](https://github.com/shreyasdamle/DHCP-Starvation-)
+
+**Attack tools for DHCP spoofing**
  - yersinia [some tutorial](https://kalilinuxtutorials.com/yersinia/)
  - [mitmf](https://github.com/byt3bl33d3r/MITMf)
- - nmap to find DHCP server (nmap -n --script=broadcast-dhcp-discover)
+ - [Ettercap](https://www.ettercap-project.org/)
+ 
  
 
 **Defence technics**
