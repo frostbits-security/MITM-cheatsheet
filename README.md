@@ -363,27 +363,14 @@ Another best practice to reduce unwanted traffic in a network is to set up passi
 **Relevance:** Moderate  
 
 **Description:**
-How DHCP address allocation works (in short):
- - The client sends a broadcast network packet (DHCPDISCOVER) to find a
-   DHCP server on the network. 
- -  The server receives a request from the
-   client and sends an offer packet (DHCPOFFER) to the client.  
- - The client sends a request for network settings (DHCPREQUEST) to the
-   server. 
- - The client sends a request for network settings (DHCPREQUEST) to the server. 
- - The server sends a confirmation to the client (DHCPACK).
- 
- Client specifies his MAC address in the chaddr (Client MAC
-   address) field In the DHCPDISCOVER and DHCPREQUEST requests, so
-   server know the client MAC address and sends a confirmation to the
-   client (DHCPACK).  
-  The attacker's task is to configure a fake DHCP server on the network to provide DHCP addresses to clients. The purpose of this attack is to **use the attacker's host or device as the default gateway** and to force clients to use a false Domain Name Service (DNS) and a Windows Internet name service (WINS server) configured by the attacker.
+  
+The purpose of this attack is to **use the attacker's host or device as the default gateway** and to force clients to use a false Domain Name Service (DNS) and a Windows Internet name service (WINS server) configured by the attacker. The attacker's task is to configure a fake DHCP server on the network to provide DHCP addresses to clients and exhausted the pool of IP addresses from other legitimate DHCP servers (DHCP Starvation attack).
 
 **Conditions of success:**
 
  - The client receives an IP address from a Rogue DHCP server faster
    than from a legitimate DHCP server. 
- - The legitimate server has exhausted the pool of addresses to be issued.
+ - The legitimate server has exhausted the pool of addresses to be issued (DHCP Starvation attack).
 
  **DHCP Starvation attack**: 
 
@@ -393,6 +380,7 @@ How DHCP address allocation works (in short):
 
 **Attack tools**
  - yersinia [some tutorial](https://kalilinuxtutorials.com/yersinia/)
+ - [mitmf](https://github.com/byt3bl33d3r/MITMf)
  - nmap to find DHCP server (nmap -n --script=broadcast-dhcp-discover)
  
 
@@ -411,7 +399,8 @@ On Cisco Switches:
 **Important.** By default, after enabling DHCP snooping, the switch is enabled to check for MAC address matching. The switch checks whether the MAC address in the DHCP request matches the client's MAC address. If they do not match, the switch discards the packet.
 
 
-**Useful links**  
+**Useful links**
+- [How DHCP works](https://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol)
 - [DHCP wireshark sample](https://wiki.wireshark.org/SampleCaptures?action=AttachFile&do=view&target=dhcp.pcap)
 
 ### Rogue DHCP (DHCPv6)
