@@ -360,9 +360,9 @@ https://github.com/fredericopissarra/t50
 **Defence technics**
 
 ### EIGRP Non-legitimate Updates
-**Complexity:**Medium  
-**Relevance:**Medium  
-**Conditions:**EIGRP protocol implemented on the network; no EIGRP messages authentication set up  
+**Complexity:** Medium  
+**Relevance:** Medium  
+**Conditions:** EIGRP protocol implemented on the network; no EIGRP messages authentication set up  
 **Description:**  
 EIGRP stands for Enhanced Interior Gateway Routing Protocol. It is a proprietary Cisco’s distance vector routing protocol, relying on Diffused Update Algorithm - DUAL. The main purpose of this protocol is to dynamically update the routing table and propagate the routes to other routers. There are 5 main message types, used in EIGRP:  
 * **Hello** - message is used to discover neighbors. The message is sent to the special IPv4 "All EIGRP routers" multicast 224.0.0.10.  
