@@ -15,13 +15,6 @@ Here is how ARP works:[check it](https://www.tummy.com/articles/networking-basic
 
 All the arp spoofing tools use a ***gratuitous*** arp request([wiki.wireshark](http://wiki.wireshark.org/Gratuitous_ARP) and [with pictures](https://www.practicalnetworking.net/series/arp/gratuitous-arp/)). A gratuitous ARP reply is a reply to which no request has been made.
 
-Gratuitous ARPs are useful for four reasons:
-
-+ They can help detect IP conflicts; 
-+ They assist in the updating of other machines' ARP tables
-+ They inform switches of the MAC address of the machine on a given switch port;
-+ They can notice that an IP interface goes up.
-
 Despite the effectiveness of gratuitous ARP, it is particularly insecure because it can be used to assure the remote host that the MAC address of a system on the same network has changed and to specify which address is used now.
 
 ***The typical example of arp spoofing is below:***
@@ -69,8 +62,11 @@ Utilities such as Anticap and Antidote can play a vital role in preventing ARP s
 + ***Creating a VLAN on the switch***
 
 A VLAN is created on the switch that contains only the switch itself and a specific network device.
-Creating encrypted connections (PPPoE, VPN, etc.)
+
++ ***Creating encrypted connections (VPN, etc.)***
+
 This method is also suitable for public networks, because all traffic is encrypted and it is impossible to intercept any user data.
+
 + ***DAI***
 
 Dynamic ARP inspection in cisco systems helps prevent the man-in-the-middle attacks by not relaying invalid or gratuitous ARP replies out to other ports in the same VLAN. Dynamic ARP inspection intercepts all ARP requests and all replies on the untrusted ports. Each intercepted packet is verified for valid IP-to-MAC bindings via DHCP snooping. Denied ARP packets are either dropped or logged by the switch for auditing so ARP poisoning attacks are stopped. Incoming ARP packets on the trusted ports are not inspected. 
@@ -141,17 +137,6 @@ Inveigh is a PowerShell ADIDNS/LLMNR/NBNS/mDNS/DNS spoofer and man-in-the-middle
 
 + Disable “Autodetect Proxy Settings”
 
-
-
-### Dynamic Trunking Protocol (DTP)
-**Сomplexity:** Moderate  
-**Relevance:** None  
-**Description:**
-
-**Attack tools**
-
-**Defence technics**
-
 ### NDP spoofing
 **Сomplexity:** Moderate  
 **Relevance:** Close to None  
@@ -190,6 +175,8 @@ Double tagging occurs when an attacker adds and modifies tags on an Ethernet fra
 [The Guide with illustrations and video](https://networklessons.com/cisco/ccnp-switch/vlan-hopping)
 
 [VLAN hopping full guide](https://www.alienvault.com/blogs/security-essentials/vlan-hopping-and-mitigation)
+
+[In-depth article](https://learningnetwork.cisco.com/blogs/vip-perspectives/2019/07/12/vlan1-and-vlan-hopping-attack)
 
 
 **Attack tools**
@@ -511,7 +498,12 @@ Initialy the application was created to be used with the Raspberry-Pi, but it ca
 
 **Defence technics**
 
-*In process*
++ Pay attention to the Wi-Fi networks that your device connects to.
+
++ Don't use open wifi in public areas, or use it very sparingly
+
++ Creating encrypted connections (VPN, etc.)
+
 
 
 ### Rogue BTS (GSM)
