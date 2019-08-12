@@ -166,9 +166,55 @@ Inveigh is a PowerShell ADIDNS/LLMNR/NBNS/mDNS/DNS spoofer and man-in-the-middle
 **Relevance:** None  
 **Description:**
 
+A virtual LAN (Local Area Network) is a logical subnetwork that can group together a collection of devices from different physical LANs. Larger business computer networks often set up VLANs to re-partition their network for improved traffic management.
+
+[VLANs](https://en.wikipedia.org/wiki/Virtual_LAN) work by applying tags to network frames and handling these tags in networking systems – creating the appearance and functionality of network traffic that is physically on a single network but acts as if it is split between separate networks. 
+
+VLAN hopping is a common name for attacks that involve access to the VLAN, which was initially (before the attack) unavailable to the attacker.
+
+***It could be performed in two ways:***
+
+1. The primary VLAN Hopping attack (using [DTP](https://en.wikipedia.org/wiki/Dynamic_Trunking_Protocol))
+
+Works only on old Cisco switches.
+
+An attacker acts as a switch in order to trick a legitimate switch into creating a trunking link between them. Packets from any VLAN are allowed to pass through a trunking link. Once the trunk link is established, the attacker then has access to traffic from any VLAN. This method is only successful when the legitimate switch is configured to negotiate a trunk. This occurs when an interface is configured with either "dynamic desirable", "dynamic auto" or "trunk" mode. If the target switch has one of those modes configured, the attacker then can generate a DTP message from their computer and a trunk link can be formed.
+
+
+2. Double tagging
+
+Double tagging occurs when an attacker adds and modifies tags on an Ethernet frame to allow the sending of packets through any VLAN. This attack takes advantage of how many switches process tags. Most switches will only remove the outer tag and forward the frame to all native VLAN ports. With that said, this method is only successful if the attacker belongs to the native VLAN of the trunk link. Another important point is, this attack is strictly one way as it is impossible to encapsulate the return packet.
+
+[The Exploit-db doc](https://www.exploit-db.com/docs/english/45050-vlan-hopping-attack.pdf)
+[The Guide with illustrations and video](https://networklessons.com/cisco/ccnp-switch/vlan-hopping)
+[VLAN hopping full guide](https://www.alienvault.com/blogs/security-essentials/vlan-hopping-and-mitigation)
+
+
 **Attack tools**
 
++ [Yersinia](http://www.yersinia.net/)
+
+Yersinia is a penetration testing framework. It can be used to to craft and send a DTP message
+
++ [Scapy](https://scapy.net/)
+
+Scapy is a Python program that enables the user to send, sniff and dissect and forge network packets. It can be used to create the specially crafted frames needed for processing this attack.
+
+
 **Defence technics**
+
+1. The primary VLAN Hopping attack (using DTP)
+
+It can only be performed when interfaces are set to negotiate a trunk. To prevent the VLAN hopping from being exploited, we can do the below mitigations:
+
++ Ensure that ports are not set to negotiate trunks automatically by disabling DTP
++ Do not configure any access points with either of the following modes: "dynamic desirable", "dynamic auto", or "trunk".
++ Shutdown all interfaces that are not currently in use.
+
+2. Double Tagging
+
++ To prevent a Double Tagging attack, keep the native VLAN of all trunk ports different from user VLANs.
+
 
 ## L3
 ### SLAAC Attack 
