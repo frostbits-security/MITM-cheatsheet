@@ -442,7 +442,7 @@ Another best practice to reduce unwanted traffic in a network is to set up passi
 **Description:**
 
 One of the purposes of the ICMP Protocol is to dynamically change the routing table of the end network systems.
-Dynamic remote management routing was originally conceived to prevent possible send a message to a non-optimal route, as well as to increase fault tolerance of the Network as a whole. It was assumed that the network segment can be connected to the Internet  through several routers (not through one as it usually happens). In this case, we can address the external network through any of the nearest routers. For example, to www.some_host.site the shortest route passes through the "router A" and to the www.another.site - through the "router B". 
+Dynamic remote management routing was originally conceived to prevent possible send a message to a non-optimal route, as well as to increase fault tolerance of the Network as a whole. It was assumed that the network segment can be connected to the Internet  through several routers (not through one as it usually happens). In this case, we can address the external network through any of the nearest routers. For example, to **some_host.site** the shortest route passes through the "router A" and to the **another.site** - through the "router B". 
 If one of the routers fails, communication with the outside world is possible through another router. 
 As the "ICMP Redirest attack", we change the route to some site (DNS Name) in the routing table of node A (victim) so that the traffic from node A to some site goes through hacker PC
 
@@ -454,14 +454,14 @@ As the "ICMP Redirest attack", we change the route to some site (DNS Name) in th
 
 **Attack tools**
 
-Responder [link](https://github.com/SpiderLabs/Responder) [some example](https://github.com/SpiderLabs/Responder/blob/master/tools/Icmp-Redirect.py)
-Hping3 [some example](https://gist.github.com/githubfoam/91bd46b68c7ee1fe465e9f743a24d140)
-Mitmf [link](https://github.com/byt3bl33d3r/MITMf)
-Bettercap [documentation](https://www.bettercap.org/legacy/)
+- Responder [link](https://github.com/SpiderLabs/Responder) [some example](https://github.com/SpiderLabs/Responder/blob/master/tools/Icmp-Redirect.py)
+- Hping3 [some example here](https://gist.github.com/githubfoam/91bd46b68c7ee1fe465e9f743a24d140)
+- Mitmf [link](https://github.com/byt3bl33d3r/MITMf)
+- Bettercap [documentation](https://www.bettercap.org/legacy/)
 
 **Defence technics**
 
-- Disable icmp redirect [some example](https://sbmlabs.com/notes/icmp_redirect_attack/)
+- Disable icmp redirect [some example here](https://sbmlabs.com/notes/icmp_redirect_attack/)
 
 ## L4+
 
