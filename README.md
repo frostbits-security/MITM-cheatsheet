@@ -437,13 +437,31 @@ The stub EIGRP routing area can be set up as it let's determine the types of rou
 Another best practice to reduce unwanted traffic in a network is to set up passive interfaces. ```passive-interface``` feature should be set on access interfaces, which communicate not to network devices, but to end devices. The instruction on setting ```passive-interface``` on EIGRP and explaination on how it works is presented in [Cisco's documentation page](https://www.cisco.com/c/en/us/support/docs/ip/enhanced-interior-gateway-routing-protocol-eigrp/13675-16.html).  
 
 ### ICMP Redirect
-**Сomplexity:** Moderate  
-**Relevance:** None  
+**Сomplexity:** Medium  
+**Relevance:** Medium  
 **Description:**
+
+One of the purposes of the ICMP Protocol is to dynamically change the routing table of the end network systems.
+Dynamic remote management routing was originally conceived to prevent possible send a message to a non-optimal route, as well as to increase fault tolerance of the Network as a whole. It was assumed that the network segment can be connected to the Internet  through several routers (not through one as it usually happens). In this case, we can address the external network through any of the nearest routers. For example, to www.some_host.site the shortest route passes through the "router A" and to the www.another.site - through the "router B". 
+If one of the routers fails, communication with the outside world is possible through another router. 
+As the "ICMP Redirest attack", we change the route to some site (DNS Name) in the routing table of node A (victim) so that the traffic from node A to some site goes through hacker PC
+
+**Conditions of success:**
+
+- The IP address of the new router must be on the same subnet as the attacked host itself.
+- A new route cannot be added for an IP address that is on the same subnet as the host itself.
+- OS must support and process ICMP redirect packets. By default ICMP redirect enabled in Windows (HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\EnableICMPRedirect) and in some Linux distros (cat /proc/sys/net/ipv4/conf/all/accept_redirects)
 
 **Attack tools**
 
+Responder [link](https://github.com/SpiderLabs/Responder) [some example](https://github.com/SpiderLabs/Responder/blob/master/tools/Icmp-Redirect.py)
+Hping3 [some example](https://gist.github.com/githubfoam/91bd46b68c7ee1fe465e9f743a24d140)
+Mitmf [link](https://github.com/byt3bl33d3r/MITMf)
+Bettercap [documentation](https://www.bettercap.org/legacy/)
+
 **Defence technics**
+
+- Disable icmp redirect [some example](https://sbmlabs.com/notes/icmp_redirect_attack/)
 
 ## L4+
 
