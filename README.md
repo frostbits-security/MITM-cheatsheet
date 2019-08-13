@@ -82,60 +82,6 @@ Dynamic ARP inspection in cisco systems helps prevent the man-in-the-middle atta
 
 **Defence technics**
 
-### NetBIOS (LLMNR) spoofing
-**Сomplexity:** Low  
-**Relevance:** High  
-**Description:**
-
-If a windows client cannot resolve a hostname using DNS, it will use the Link-Local Multicast Name Resolution ([LLMNR](https://docs.microsoft.com/en-us/previous-versions//bb878128(v=technet.10))) protocol to ask neighbouring computers. LLMNR can be used to resolve both IPv4 and IPv6 addresses. 
-
-If this fails, NetBios Name Service ([NBNS](https://wiki.wireshark.org/NetBIOS/NBNS)) will be used. NBNS is a similar protocol to LLMNR that serves the same purpose. The main difference between the two is NBNS works over IPv4 only. 
-
-The problem of this pretty cool thing is that when LLMNR or NBNS are used to resolve a request, any host on the network who knows the IP of the host being asked about can reply. Even if a host replies to one of these requests with incorrect information, it will still be regarded as legitimate.
-
-The attacker may request NTLM authentication from the victim, which will cause the victim's device to send an NTLM hash, which can then be used for brute force attack.
-
-***Also there is a chance to perform WPAD spoofing.***
-
-WPAD spoofing can be referred to as a special case of LLMNR- and NBNS-spoofing. Web Proxy Auto Discovery protocol is used for automatic configuration of HTTP proxy server. 
-
-The device sends an LLMNR/NBNS request with a wpad host, obtains the corresponding IP address and tries to access the wpad.dat file containing information about proxy settings via HTTP.
-
-As a result, an attacker can perform LLMNR/NBNS spoofing and provide the victim with his own wpad.dat file, resulting in all HTTP and HTTPS traffic going through the attacker.
-
-[Quick tutorial to grab clear text credentials](https://www.trustedsec.com/2013/07/wpad-man-in-the-middle-clear-text-passwords/)
-
-[How Microsoft Windows’s name resolution services work and how they can be abused](https://trelis24.github.io/2018/08/03/Windows-WPAD-Poisoning-Responder/)
-
-
-**Attack tools**
-
-+ ***[Responder](https://github.com/SpiderLabs/Responder)***
-
-It can answer LLMNR and NBNS queries giving its own IP address as the destination for any hostname requested. Responder has support for poisoning WPAD requests and serving a valid wpad.dat PAC file.
-
-+ ***[Mitm6](https://github.com/fox-it/mitm6)***
-
-mitm6 is a pentesting tool  which is designed for WPAD spoofing and credential relaying. 
-
-+ ***[Inveigh](https://github.com/Kevin-Robertson/Inveigh)***
-
-Inveigh is a PowerShell ADIDNS/LLMNR/NBNS/mDNS/DNS spoofer and man-in-the-middle tool designed to assist penetration testers/red teamers that find themselves limited to a Windows system. 
-
-+ ***[Metasploit modules](https://github.com/rapid7/metasploit-framework)***
-
-[auxiliary/spoof/llmnr/llmnr_response](https://www.rapid7.com/db/modules/auxiliary/spoof/llmnr/llmnr_response),
-[auxiliary/spoof/nbns/nbns_response](https://www.rapid7.com/db/modules/auxiliary/spoof/nbns/nbns_response) 
-
-**Defence technics**
-
-+ Disable LLMNR and NBNS. You can do it using [GPO](https://en.wikipedia.org/wiki/Group_Policy)
-
-[how to do it here](http://woshub.com/how-to-disable-netbios-over-tcpip-and-llmnr-using-gpo/)
-
-+ Create DNS entry with “WPAD” that points to the corporate proxy server. So the attacker won’t be able to manipulate the traffic.
-
-+ Disable “Autodetect Proxy Settings”
 
 ### NDP spoofing
 **Сomplexity:** Moderate  
@@ -500,6 +446,63 @@ Another best practice to reduce unwanted traffic in a network is to set up passi
 **Defence technics**
 
 ## L4+
+
+### NetBIOS (LLMNR) spoofing
+**Сomplexity:** Low  
+**Relevance:** High  
+**Description:**
+
+If a windows client cannot resolve a hostname using DNS, it will use the Link-Local Multicast Name Resolution ([LLMNR](https://docs.microsoft.com/en-us/previous-versions//bb878128(v=technet.10))) protocol to ask neighbouring computers. LLMNR can be used to resolve both IPv4 and IPv6 addresses. 
+
+If this fails, NetBios Name Service ([NBNS](https://wiki.wireshark.org/NetBIOS/NBNS)) will be used. NBNS is a similar protocol to LLMNR that serves the same purpose. The main difference between the two is NBNS works over IPv4 only. 
+
+The problem of this pretty cool thing is that when LLMNR or NBNS are used to resolve a request, any host on the network who knows the IP of the host being asked about can reply. Even if a host replies to one of these requests with incorrect information, it will still be regarded as legitimate.
+
+The attacker may request NTLM authentication from the victim, which will cause the victim's device to send an NTLM hash, which can then be used for brute force attack.
+
+***Also there is a chance to perform WPAD spoofing.***
+
+WPAD spoofing can be referred to as a special case of LLMNR- and NBNS-spoofing. Web Proxy Auto Discovery protocol is used for automatic configuration of HTTP proxy server. 
+
+The device sends an LLMNR/NBNS request with a wpad host, obtains the corresponding IP address and tries to access the wpad.dat file containing information about proxy settings via HTTP.
+
+As a result, an attacker can perform LLMNR/NBNS spoofing and provide the victim with his own wpad.dat file, resulting in all HTTP and HTTPS traffic going through the attacker.
+
+[Quick tutorial to grab clear text credentials](https://www.trustedsec.com/2013/07/wpad-man-in-the-middle-clear-text-passwords/)
+
+[How Microsoft Windows’s name resolution services work and how they can be abused](https://trelis24.github.io/2018/08/03/Windows-WPAD-Poisoning-Responder/)
+
+
+**Attack tools**
+
++ ***[Responder](https://github.com/SpiderLabs/Responder)***
+
+It can answer LLMNR and NBNS queries giving its own IP address as the destination for any hostname requested. Responder has support for poisoning WPAD requests and serving a valid wpad.dat PAC file.
+
++ ***[Mitm6](https://github.com/fox-it/mitm6)***
+
+mitm6 is a pentesting tool  which is designed for WPAD spoofing and credential relaying. 
+
++ ***[Inveigh](https://github.com/Kevin-Robertson/Inveigh)***
+
+Inveigh is a PowerShell ADIDNS/LLMNR/NBNS/mDNS/DNS spoofer and man-in-the-middle tool designed to assist penetration testers/red teamers that find themselves limited to a Windows system. 
+
++ ***[Metasploit modules](https://github.com/rapid7/metasploit-framework)***
+
+[auxiliary/spoof/llmnr/llmnr_response](https://www.rapid7.com/db/modules/auxiliary/spoof/llmnr/llmnr_response),
+[auxiliary/spoof/nbns/nbns_response](https://www.rapid7.com/db/modules/auxiliary/spoof/nbns/nbns_response) 
+
+**Defence technics**
+
++ Disable LLMNR and NBNS. You can do it using [GPO](https://en.wikipedia.org/wiki/Group_Policy)
+
+[how to do it here](http://woshub.com/how-to-disable-netbios-over-tcpip-and-llmnr-using-gpo/)
+
++ Create DNS entry with “WPAD” that points to the corporate proxy server. So the attacker won’t be able to manipulate the traffic.
+
++ Disable “Autodetect Proxy Settings”
+
+
 ### DHCP spoofing 
 **Сomplexity:** Moderate  
 **Relevance:** Moderate  
