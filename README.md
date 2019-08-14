@@ -578,9 +578,22 @@ On Cisco Switches:
 **Relevance:** High  
 **Description:**
 
+The Ipv6 client sends a **Solicit** message to the All_DHCP_Relay_Agents_and_Servers address to find available DHCP servers. Any server that can meet the client's requirements responds with an **Advertise** message. The client then chooses one of the servers and sends a **Request** message to the server asking for confirmed assignment of addresses and other configuration information.The server responds with a **Reply** message that contains the confirmed addresses and configuration.
+This schema looks simular to DHCPv4 so the main goal for the attacker is to use fake DHCPv6 server to redirect victims traffic to himself.
+The attacker can catch client DHCP solicit message and can actually reply, pretending that he is the DHCPv6 server and assign credentials (such as the DNS address) to be used by victim. 
+
 **Attack tools**
 
+- mitm6 [link](https://github.com/fox-it/mitm6)
+- some scapy python scripts [example](https://cciethebeginning.wordpress.com/2012/01/27/dhcpv6-fake-attack/)
+- snarf [link](https://github.com/purpleteam/snarf)
+
 **Defence technics**
+
+- In cisco devices enable dhcpv6 guard policy [example](https://community.cisco.com/t5/networking-documents/understanding-dhcpv6-guard/ta-p/3147653)
+- disable Ipv6 if you dont use it
+
+
 
 ## Wireless
 ### Karma attacks (Wi-Fi)
