@@ -662,10 +662,59 @@ Initialy the application was created to be used with the Raspberry-Pi, but it ca
 
 # Hacker notes
 ## Difference between CPU (or why most of that attack imposible from your notebook)
+
+When computer networks were slow, the data packets transmitted over them were processed by common CPUs. Everything would have been fine, but with the increasing networks' bandwidth, the performance of these CPUs was not enough. That's when NPUs began to appear, which had a different way of working from general purpose CPUs, but did a great job of processing packets.
+
+So you can't just connect to the network and turn on the spoofing, it can put the network down right away. Your small notebook network adapter simply cannot cope with a large data stream and will start to drop them. You need to choose the optimal number of hosts that you can spoof at the same time(~<4).
+
 ### Attack device  
 Possible candidate: MikroTik hAP AC
 
-# SSL strip
+#  SSLStrip, SSLStrip+, HSTS
 
-# For developers
-## HSTS
+***SSLStrip*** is a technique that replaces a secure (HTTPS) connection with an open (HTTP) connection.
+This attack is also known as HTTP-downgrading
+
+It intercepted HTTP traffic and whenever it spotted redirects or links to sites using HTTPS, it would transparently strip them away.
+
+Instead of the victim connecting directly to a website; the victim connected to the attacker, and the attacker initiated the connection back to the website. The interceptor made the encrypted connection to back to the web server in HTTPS, and served the traffic back to the site visitor unencrypted 
+
+***But*** it doesn't work anymore with the advent of HSTS. More precisely, it doesn't work where HSTS is enabled.
+
+HTTP Strict Transport Security ([HSTS](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security)) is a web security policy mechanism that helps to protect websites against protocol downgrade attacks(SSL stripping). It allows web servers to declare that web browsers should interact with it using only secure HTTPS connections, and never via the insecure HTTP protocol. HSTS is an IETF standards track protocol and is specified in RFC 6797.
+
+The HSTS works by the server responding with a special header called Strict-Transport-Security which contains a response telling the client that whenever they reconnect to the site, they must use HTTPS. This response contains a "max-age" field which defines how long this rule should last for since it was last seen.
+
+Also It has ```includeSubDomains```  (optional).
+If this optional parameter is specified, this rule applies to all of the site's subdomains as well.
+
+But not everyone sets up HSTS the same way.
+
+That's how ***SSLstrip++*** came about.
+
+It's a tool that transparently hijack HTTP traffic on a network, watch for HTTPS links and redirects, then map those links into either look-alike HTTP links or homograph-similar HTTPS links. 
+
+One of the shortcomings of HSTS is the fact that it requires a previous connection to know to always connect securely to a particular site. When the visitor first connects to the website, they won't have received the HSTS rule that tells them to always use HTTPS. Only on subsequent connections will the visitor's browser be aware of the HSTS rule that requires them to connect over HTTPS.
+
+***HSTS Preload Lists*** are one potential solution to help with these issues, they effectively work by hardcoding a list of websites that need to be connected to using HTTPS-only. 
+
+Inside the source code of Google Chrome, there is a file which contains a hardcoded file listing the HSTS properties for all domains in the Preload List. Each entry is formatted in JSON.
+
+
+**Attack tools**
+
++ [sslstrip](https://github.com/moxie0/sslstrip)
+
+sslstrip is a MITM tool that implements Moxie Marlinspike's SSL stripping attacks.
+
++ [sslstrip2](https://github.com/LeonardoNve/sslstrip2)
+
+This is a new version of [Moxie´s SSLstrip] (http://www.thoughtcrime.org/software/sslstrip/) with the new feature to avoid HTTP Strict Transport Security (HSTS) protection mechanism.
+
+**Defence technics**
+
+[For developers - The 6-Step "Happy Path" to HTTPS](https://www.troyhunt.com/the-6-step-happy-path-to-https/)
+
+
+
+
