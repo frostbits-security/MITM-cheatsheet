@@ -157,21 +157,8 @@ It can only be performed when interfaces are set to negotiate a trunk. To preven
 **Сomplexity:** Low  
 **Relevance:** High  
 **Description**  
-	One of ways of host network configuration, like DHCPv4. SLAAC provides an IPv6 host prefix value, prefix length and default gateway link-local address without DHCPv6-server which keeps state of the provided addresses (thats why it’s called stateless). Participating in SLAAC process, hosts use two ICMPv6 messages. They are Router Advertisement (RA) – ICMPv6 type 134 and Router Solicitation (RS) – ICMPv6 type 133.  
-	***Router Solicitation (RS)*** is a message, which is sent by the IPv6 host to the all-router’s multicast address ff02::2. This address is assigned to every router on the link, so every rohuter will receive this RS message. The reply to RS will be the RA – Router Advertisement message and it will be sent to the all-hosts address f02::1 which is used to reach all the hosts on the link.   
-	***Router Advertisement (RA)*** is a message which is sent as a reply to the RS or periodically and contains the following configuration information:
-* prefix value;  
-* prefix length;  
-* default router link address;  
-* DNS server link address (in case of SLAAC-only).    
+	One of ways of host network configuration, like DHCPv4. SLAAC provides an IPv6 host prefix value, prefix length and default gateway link-local address without DHCPv6-server which keeps state of the provided addresses (thats why it’s called stateless). The SLAAC process is performed during SLAAC-only and SLAAC+DHCPv6 Stateless configuration. The main problem of this process is that the attacker can craft the rogue RA to give the hosts his own configuration (e.g., to become a default router on the link). All the hosts, which have IPv6 enabled, are potentially vulnerable to SLAAC attacks. Especially in cases, when IPv6 is enabled is OS by default but organization hasn’t deployed  IPv6 in any form.   
 
-<p>The SLAAC process is performed during SLAAC-only and SLAAC+DHCPv6 Stateless configuration. The main problem of this process is that the attacker can craft the rogue RA to give the hosts his own configuration (e.g., to become a default router on the link). All the hosts, which have IPv6 enabled, are potentially vulnerable to SLAAC attacks. Especially in cases, when IPv6 is enabled is OS by default but organization hasn’t deployed  IPv6 in any form.</p>  
-
-The problem of Rogue RA is covered in [RFC 6104 - Router Advertisement Problem Statement](https://tools.ietf.org/html/rfc6104) . As a solution, IETF proposed a technology called RA Guard, which gives an opportunity to accept legitimate RA from legitimate routers and block malicious RA. There are two main RFCs, which rely to this technology:   
-
-* [RFC 6105 - IPv6 Router Advertisement Guard](https://tools.ietf.org/html/rfc6105)
-* [RFC 7113 - Implementation Advice for IPv6 Router Advertisement Guard (RA-Guard)](https://tools.ietf.org/html/rfc7113)  
-	
 <u>Cisco</u> has implemented a technology “IPv6 First Hop Security” which is included in Catalyst 6500, 4500, 3850, 3750 and 2960 Series Switches, 7600 Series Routers and Cisco 5700 Series Wireless LAN Controllers. There’s RA Guard, DHCP Guard and also IPv6 Snooping implemented. More information can be found [here](https://www.cisco.com/c/dam/en/us/products/collateral/ios-nx-os-software/enterprise-ipv6-solution/aag_c45-707354.pdf).  
 
 <u>Juniper</u> has implemented RA Guard. There is one strange fact: on the `router-advertisement-guard` statement [documentation page](https://www.juniper.net/documentation/en_US/junos/topics/reference/configuration-statement/router-advertisement-guard-edit-fo.html) it's mentioned that only EX Series platforms are supported. But on the page of [Configuring Stateless IPv6 Router Advertisement Guard](https://www.juniper.net/documentation/en_US/junos/topics/task/configuration/port-security-ra-guard.html) and [Configuring Stateful IPv6 Router Advertisement Guard](https://www.juniper.net/documentation/en_US/junos/topics/task/configuration/port-security-ra-guard-stateful.html) it's mentioned that both EX and some of QFX Series platforms support RA Guard: EX2300(15.1X53-D56), EX2300-VC(15.1X53-D56), EX3400(15.1X53-D55), EX3400-VC(15.1X53-D55), EX4300(16.1R1), EX4300-VC(16.1R1), EX4300 Multigigabit(18.2R1), EX4600(18.3R1), EX4600-VC(18.3R1) and QFX5100(18.2R1), QFX5110(17.2R1), QFX5200(18.2R1).
