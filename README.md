@@ -355,12 +355,7 @@ Also, ```passive-interface``` feature should be used on the access interfaces, w
 **Relevance:** Medium  
 **Conditions:** EIGRP protocol implemented on the network; no EIGRP messages authentication set up  
 **Description:**  
-EIGRP stands for Enhanced Interior Gateway Routing Protocol. It is a proprietary Cisco’s distance vector routing protocol, relying on Diffused Update Algorithm - DUAL. The main purpose of this protocol is to dynamically update the routing table and propagate the routes to other routers. There are 5 main message types, used in EIGRP:  
-* **Hello** - message is used to discover neighbors. The message is sent to the special IPv4 "All EIGRP routers" multicast 224.0.0.10.  
-* **Update** - this message contains information about changed route. This message can be sent both unicast and multicast. If this message is received by the other router, it sends ACK message as a response.  
-* **Query** - when the router doesn't have fesible accessor for the destination, it sends Query message to its neighbors to ask if they have one. Usualy Query packets are sent multicast, but can also be unicast. When the router gets Query packet, it answers with ACK.
-* **Reply** - it's a reply packet for the Query packet. When router gets Reply, it answers with ACK.
-* **ACK** - the packet is used to confirm receipt of Update, Query and Reply packets. It's sent unicast and has ACK-number in it.  
+EIGRP stands for Enhanced Interior Gateway Routing Protocol. It is a proprietary Cisco’s distance vector routing protocol, relying on Diffused Update Algorithm - DUAL. The main purpose of this protocol is to dynamically update the routing table and propagate the routes to other routers.  
 The main security issue is possible in case of spoofing data in **Update** message, e.g. to inject a non-legitimate route. In this case the router's routing table gets changed to make it pass the traffic through the device, controlled by the attacker and so the MitM attack is present.  
 
 **Attack tools**  
