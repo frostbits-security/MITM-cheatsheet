@@ -129,12 +129,17 @@ Double tagging occurs when an attacker adds and modifies tags on an Ethernet fra
 
 + [Yersinia](http://www.yersinia.net/)
 
-Yersinia is a penetration testing framework. It can be used to to craft and send a DTP message
+Yersinia is a penetration testing framework. It can be used to to craft and send a DTP message.
 
 + [Scapy](https://scapy.net/)
 
 Scapy is a Python program that enables the user to send, sniff and dissect and forge network packets. It can be used to create the specially crafted frames needed for processing this attack.
 
++ [DTP-spoof](https://github.com/fleetcaptain/dtp-spoof)
+
+DTP-spoof is a security tool to test the Dynamic Trunking Protocol (DTP) configuration of switches. If the target switch is configured to negotiate the port mode, you can potentially set the target switch's port to Trunk mode, thereby gaining access to additional VLANs.  
+Example:
+`python dtp-spoof.py -i eth0` sends a DTP Trunk packet out eth0 using eth0's mac address
 
 **Defence technics**
 
