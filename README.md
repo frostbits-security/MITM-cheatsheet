@@ -33,7 +33,8 @@ Also there is a chance of successful attack in another way. When you will monito
 
 **Attack tools:**
 * [`bettercap`](https://github.com/bettercap/bettercap)`-T 10.10.10.10 -X --httpd --proxy-https --proxy`  
-how to use → [here](https://danielmiessler.com/study/bettercap/))
+old ruby version is preferred  
+how to use: [here](https://danielmiessler.com/study/bettercap/)
 * [Arpspoof](http://github.com/smikims/arpspoof)
 * [Cain & Abel](https://github.com/xchwarze/Cain)
 * [Dsniff](https://monkey.org/~dugsong/dsniff/)
