@@ -11,8 +11,6 @@ A cheat sheet for pentesters and defensive teams about Man In The Middle attacks
 **Description:**  
 Address Resolution Protocol (ARP) is a  protocol used for resolving IP addresses to machine MAC addresses. All network devices that need to communicate on the network broadcast ARP queries in the system to find out other machines’ MAC addresses.
   
-Here is full description how ARP works: [check it](https://www.tummy.com/articles/networking-basics-how-arp-works/)
-
 All the arp spoofing tools use a [gratuitous](http://wiki.wireshark.org/Gratuitous_ARP) arp request. A gratuitous ARP reply is a reply to which no request has been made.
 
 Despite the effectiveness of gratuitous ARP, it is particularly insecure because it can be used to assure the remote host that the MAC address of a system on the same network has changed and to specify which address is used now.
@@ -66,6 +64,8 @@ This method is also suitable for public networks, because all traffic is encrypt
 * DAI  
 Dynamic ARP inspection in cisco systems helps prevent the man-in-the-middle attacks by not relaying invalid or gratuitous ARP replies out to other ports in the same VLAN. Dynamic ARP inspection intercepts all ARP requests and all replies on the untrusted ports. Each intercepted packet is verified for valid IP-to-MAC bindings via DHCP snooping. Denied ARP packets are either dropped or logged by the switch for auditing so ARP poisoning attacks are stopped. Incoming ARP packets on the trusted ports are not inspected. 
 
+> Related links  
+[How ARP works](https://www.tummy.com/articles/networking-basics-how-arp-works/)
 
 ### STP(RSTP, PVSTP, MSTP) spoofing
 **Сomplexity:** High  
