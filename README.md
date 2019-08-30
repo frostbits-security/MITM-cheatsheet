@@ -32,9 +32,8 @@ Despite the effectiveness of gratuitous ARP, it is particularly insecure because
 Also there is a chance of successful attack in another way. When you will monitor the arp activity in the network segment and suddenly notice the victim's  arp request, you can try send the arp reply to victim faster than addressee of that request. Some vendors can accept this trick.
 
 **Attack tools:**
-* [`bettercap`](https://github.com/bettercap/bettercap)`-T 10.10.10.10 -X --httpd --proxy-https --proxy`  
-old ruby version is preferred  
-how to use: [here](https://danielmiessler.com/study/bettercap/)
+* [`bettercap`](https://www.bettercap.org/legacy/)`-T 10.10.10.10 -X --httpd --proxy-https --proxy`  
+The old version of the tool is simpler, but there is also a [new](https://github.com/bettercap/bettercap) fashionable one written in Go.
 * [`arpspoof`](http://github.com/smikims/arpspoof)`-i eth0 -t 10.10.10.10`
 * [Cain & Abel](https://github.com/xchwarze/Cain)
 * [Dsniff](https://monkey.org/~dugsong/dsniff/)
