@@ -157,8 +157,9 @@ An attacker acts as a switch in order to trick a legitimate switch into creating
 
 **Attack tools**
 
-+ [Yersinia](http://www.yersinia.net/)  
-Yersinia is a penetration testing framework. It can be used to to craft and send a DTP message.
+* [`yersinia`](https://github.com/tomac/yersinia)` –G`
+Yersinia has a graphical interface and an interactive console, you need to select network interfaces and launch a MITM attack.  
+The graphical interface does not work stably, so you can use the interactive interface: `yersinia –I`. You will also need a utility for data sniff, for example: [`net-creds`](https://Qithub.com/DanMcInerney/net-creds) (or wireshark).
 
 + [Scapy](https://scapy.net/)  
 Scapy is a Python program that enables the user to send, sniff and dissect and forge network packets. It can be used to create the specially crafted frames needed for processing this attack.
