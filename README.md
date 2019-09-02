@@ -65,9 +65,9 @@ Despite the effectiveness of gratuitous ARP, it is particularly insecure because
 Also there is a chance of successful attack in another way. When you will monitor the arp activity in the network segment and suddenly notice the victim's  arp request, you can try send the arp reply to victim faster than addressee of that request. Some vendors can accept this trick.
 
 **Attack tools:**
-* [`bettercap`](https://www.bettercap.org/legacy/)`-T 10.10.10.10 -X --httpd --proxy-https --proxy`  
+* [`bettercap`](https://www.bettercap.org/legacy/)` -T 10.10.10.10 -X --httpd --proxy-https --proxy`  
 The old version of the tool is simpler, but there is also a [new](https://github.com/bettercap/bettercap) fashionable one written in Go.
-* [`arpspoof`](http://github.com/smikims/arpspoof)`-i eth0 -t 10.10.10.10`
+* [`arpspoof`](http://github.com/smikims/arpspoof)` -i eth0 -t 10.10.10.10`
 * [Cain & Abel](https://github.com/xchwarze/Cain)
 * [Dsniff](https://monkey.org/~dugsong/dsniff/)
 * [Intercepter-NG](http://sniff.su/) (Now it could be installed at Linux) 
@@ -106,9 +106,22 @@ Dynamic ARP inspection in cisco systems helps prevent the man-in-the-middle atta
 **Сomplexity:** High  
 **Relevance:** Moderate  
 **Description:**  
-**Attack tools**  
-**Defence technics**  
+The spanning tree protocol is designed to detect and prevent loops in the network if there are redundant paths between the switches.
 
+Anyone who can emulate a device with a (lower) root switch identifier (by connecting a new virtual device with a lower priority or using the STP packet generation tool) can partially or completely intercept the virtual network traffic. Typically, an attacker does not have a physical connection with two switches, so the described attack method is hardly possible. However, in wireless networks, the situation is changing, since the cable connection (socket in the office) and the wireless connection (access point) can end on different switches.
+
+**Attack tools**  
+Caution: Often this type of attack leads to a denial of service.
+
+* [`yersinia`](https://github.com/tomac/yersinia)` –G`
+Yersinia has a graphical interface and an interactive console, you need to select network interfaces and launch a MITM attack.  
+The graphical interface does not work stably, so you can use the interactive interface: `yersinia –I`. You will also need a utility for data sniff, for example: [`net-creds`](https://Qithub.com/DanMcInerney/net-creds) (or wireshark).  
+* [`ettercap`](http://ettercap.qithub.lo/ettercap/downloads.html)  
+One more tool for Linux. You need to select the interfaces, then tap "stp mangier" plugin and start it.
+
+**Defence technics**  
+* Disabling STP on access ports (to stop recieve BDPU from users), enable port security on all user ports, and restricting physical access to network equipment.
+* [configuration tools](https://community.cisco.com/t5/networking-documents/spanning-tree-protection/ta-p/3116493) that protect STP (Cisco).
 
 ### NDP spoofing
 **Сomplexity:** Moderate  
