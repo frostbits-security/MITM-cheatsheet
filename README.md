@@ -3,6 +3,41 @@ We tried to put together all known MITM attacks and methods of protection agains
 
 A cheat sheet for pentesters and defensive teams about Man In The Middle attacks.
 
+## Table of Contents  
+* [L2](#l2)  
+	* [Arp spoofing](#arp-spoofing)
+	* [STP(RSTP, PVSTP, MSTP) spoofing](#stprstp-pvstp-mstp-spoofing) :hourglass_flowing_sand:  
+	* [NDP spoofing](#ndp-spoofing) :hourglass_flowing_sand:  
+	* [VLAN hopping](#vlan-hopping)  
+* [L3](#l3)  
+	* [SLAAC Attack](#slaac-attack)  
+	* [Hijacking HSRP (VRRP, CARP)](#hijacking-hsrp-vrrp-carp) :hourglass_flowing_sand:  
+	* [Dynamic routing protocol spoofing (BGP)](#dynamic-routing-protocol-spoofing-bgp) :hourglass_flowing_sand:  
+	* [RIPv2 Routing Table Poisoning](#ripv2-routing-table-poisoning)  
+	* [OSPF Routing Table Poisoning](#ospf-routing-table-poisoning) :hourglass_flowing_sand:  
+	* [EIGRP Routing Table Poisoning](#eigrp-routing-table-poisoning)  
+	* [ICMP Redirect](#icmp-redirect)  
+* [L4+](#l4)  
+	* [NetBIOS (LLMNR) spoofing](#netbios-llmnr-spoofing)  
+	* [DHCP spoofing](#dhcp-spoofing)  
+	* [Rogue DHCP (DHCPv6)](#rogue-dhcp-dhcpv6)  
+* [Wireless](#wireless)  
+	* [Karma attacks (Wi-Fi)](#karma-attacks-wi-fi)  
+	* [Rogue BTS (GSM)](#karma-attacks-wi-fi) :hourglass_flowing_sand:  
+* [Attack technics](#attack-technics) :hourglass_flowing_sand:  
+	* [Data sniffing](#data-sniffing) :hourglass_flowing_sand:  
+	* [Injections in data](#injections-in-data) :hourglass_flowing_sand:  
+		* [Malicious JS in HTML](#malicious-js-in-html) :hourglass_flowing_sand:  
+		* [HTA](#hta) :hourglass_flowing_sand:  
+	* [Data modification](#data-modification) :hourglass_flowing_sand:  
+		* [Wsus](#wsus) :hourglass_flowing_sand:  
+		* [DNS hijacking](#dns-hijacking) :hourglass_flowing_sand:  
+* [Hacker notes](#hacker-notes)   
+	* [Difference between CPU (or why most of that attack imposible from your notebook)](#difference-between-cpu-or-why-most-of-that-attack-imposible-from-your-notebook) 
+* [SSLStrip, SSLStrip+, HSTS](#sslstrip-sslstrip-hsts) 
+
+:hourglass_flowing_sand: - part in process
+
 ## L2
 
 ### Arp spoofing
@@ -70,84 +105,66 @@ Dynamic ARP inspection in cisco systems helps prevent the man-in-the-middle atta
 ### STP(RSTP, PVSTP, MSTP) spoofing
 **Сomplexity:** High  
 **Relevance:** Moderate  
-**Description:**
-
-**Attack tools**
-
-**Defence technics**
+**Description:**  
+**Attack tools**  
+**Defence technics**  
 
 
 ### NDP spoofing
 **Сomplexity:** Moderate  
 **Relevance:** Close to None  
-**Description:**
-
-**Attack tools**
-
-**Defence technics**
+**Description:**  
+**Attack tools**  
+**Defence technics**  
 
 ### VLAN hopping
 **Сomplexity:** Moderate  
 **Relevance:** None  
-**Description:**
-
+**Description:**  
 A virtual LAN (Local Area Network) is a logical subnetwork that can group together a collection of devices from different physical LANs. Larger business computer networks often set up VLANs to re-partition their network for improved traffic management.
 
 [VLANs](https://en.wikipedia.org/wiki/Virtual_LAN) work by applying tags to network frames and handling these tags in networking systems – creating the appearance and functionality of network traffic that is physically on a single network but acts as if it is split between separate networks. 
 
 VLAN hopping is a common name for attacks that involve access to the VLAN, which was initially (before the attack) unavailable to the attacker.
 
-***It could be performed in two ways:***
+<details>
+<summary>It could be performed in two ways: </summary>
 
-1. The primary VLAN Hopping attack (using [DTP](https://en.wikipedia.org/wiki/Dynamic_Trunking_Protocol))
-
-Works only on old Cisco switches.
-
+1. The primary VLAN Hopping attack (using [DTP](https://en.wikipedia.org/wiki/Dynamic_Trunking_Protocol))  
+Works only on old Cisco switches.  
 An attacker acts as a switch in order to trick a legitimate switch into creating a trunking link between them. Packets from any VLAN are allowed to pass through a trunking link. Once the trunk link is established, the attacker then has access to traffic from any VLAN. This method is only successful when the legitimate switch is configured to negotiate a trunk. This occurs when an interface is configured with either "dynamic desirable", "dynamic auto" or "trunk" mode. If the target switch has one of those modes configured, the attacker then can generate a DTP message from their computer and a trunk link can be formed.
 
+2. *Double tagging* occurs when an attacker adds and modifies tags on an Ethernet frame to allow the sending of packets through any VLAN. This attack takes advantage of how many switches process tags. Most switches will only remove the outer tag and forward the frame to all native VLAN ports. With that said, this method is only successful if the attacker belongs to the native VLAN of the trunk link. Another important point is, this attack is strictly one way as it is impossible to encapsulate the return packet. </details>
 
-2. Double tagging
-
-Double tagging occurs when an attacker adds and modifies tags on an Ethernet frame to allow the sending of packets through any VLAN. This attack takes advantage of how many switches process tags. Most switches will only remove the outer tag and forward the frame to all native VLAN ports. With that said, this method is only successful if the attacker belongs to the native VLAN of the trunk link. Another important point is, this attack is strictly one way as it is impossible to encapsulate the return packet.
-
-[The Exploit-db doc](https://www.exploit-db.com/docs/english/45050-vlan-hopping-attack.pdf)
-
-[The Guide with illustrations and video](https://networklessons.com/cisco/ccnp-switch/vlan-hopping)
-
-[VLAN hopping full guide](https://www.alienvault.com/blogs/security-essentials/vlan-hopping-and-mitigation)
-
-[In-depth article](https://learningnetwork.cisco.com/blogs/vip-perspectives/2019/07/12/vlan1-and-vlan-hopping-attack)
+[The Exploit-db doc](https://www.exploit-db.com/docs/english/45050-vlan-hopping-attack.pdf)  
+[The Guide with illustrations and video](https://networklessons.com/cisco/ccnp-switch/vlan-hopping)  
+[VLAN hopping full guide](https://www.alienvault.com/blogs/security-essentials/vlan-hopping-and-mitigation)  
+[In-depth article](https://learningnetwork.cisco.com/blogs/vip-perspectives/2019/07/12/vlan1-and-vlan-hopping-attack)  
 
 
 **Attack tools**
 
-+ [Yersinia](http://www.yersinia.net/)
-
++ [Yersinia](http://www.yersinia.net/)  
 Yersinia is a penetration testing framework. It can be used to to craft and send a DTP message.
 
-+ [Scapy](https://scapy.net/)
-
++ [Scapy](https://scapy.net/)  
 Scapy is a Python program that enables the user to send, sniff and dissect and forge network packets. It can be used to create the specially crafted frames needed for processing this attack.
 
-+ [DTP-spoof](https://github.com/fleetcaptain/dtp-spoof)
-
++ [DTP-spoof](https://github.com/fleetcaptain/dtp-spoof)  
 DTP-spoof is a security tool to test the Dynamic Trunking Protocol (DTP) configuration of switches. If the target switch is configured to negotiate the port mode, you can potentially set the target switch's port to Trunk mode, thereby gaining access to additional VLANs.  
-Example:
+Example:  
 `python dtp-spoof.py -i eth0` sends a DTP Trunk packet out eth0 using eth0's mac address
 
 **Defence technics**
 
-1. The primary VLAN Hopping attack (using DTP)
+1. The primary VLAN Hopping attack (using DTP)  
+It can only be performed when interfaces are set to negotiate a trunk. To prevent the VLAN hopping from being exploited, we can do the below mitigations:  
+	+ Ensure that ports are not set to negotiate trunks automatically by disabling DTP
+	+ Do not configure any access points with either of the following modes: "dynamic desirable", "dynamic auto", or "trunk".
+	+ Shutdown all interfaces that are not currently in use.
 
-It can only be performed when interfaces are set to negotiate a trunk. To prevent the VLAN hopping from being exploited, we can do the below mitigations:
-
-+ Ensure that ports are not set to negotiate trunks automatically by disabling DTP
-+ Do not configure any access points with either of the following modes: "dynamic desirable", "dynamic auto", or "trunk".
-+ Shutdown all interfaces that are not currently in use.
-
-2. Double Tagging
-
-+ To prevent a Double Tagging attack, keep the native VLAN of all trunk ports different from user VLANs.
+2. Double Tagging  
+To prevent a Double Tagging attack, keep the native VLAN of all trunk ports different from user VLANs.
 
 
 ## L3
@@ -190,7 +207,9 @@ Unfortunately, there are methods of traffic analysis hardening, which breaks per
 
 <details>
  <summary>10 basic ideas to solve the problem</summary>
-[RFC 6104 - Rogue IPv6 Router Advertisement Problem Statement](https://tools.ietf.org/html/rfc6104) presents 10 basic ideas to solve the problem of Rogue RA. So the section above is just a brief overview of what IETF has to offer as a solution for today: 
+
+[RFC 6104 - Rogue IPv6 Router Advertisement Problem Statement](https://tools.ietf.org/html/rfc6104) presents 10 basic ideas to solve the problem of Rogue RA. So the section above is just a brief overview of what IETF has to offer as a solution for today:  
+
 1. *Manual Configuration* of IPv6 address and disabling autoconfiguration for RA messages to be ignored.   
 For Linux systems `net.ipv6.conf.*` values can be changed:  
 	```
@@ -266,11 +285,9 @@ Allows to monitor network state, watching the DAD process and NS messages. DAD s
 ### Hijacking HSRP (VRRP, CARP)
 **Сomplexity:** High  
 **Relevance:** High  
-**Description:**
-
-**Attack tools**
-
-**Defence technics**
+**Description:**  
+**Attack tools**  
+**Defence technics**  
 
 ### Dynamic routing protocol spoofing (BGP)
 **Сomplexity:** High  
@@ -278,66 +295,69 @@ Allows to monitor network state, watching the DAD process and NS messages. DAD s
 **Conditions:**  
 **Description:**  
 **Attack tools**  
-https://github.com/fredericopissarra/t50
-**Defence technics**
+https://github.com/fredericopissarra/t50  
+**Defence technics**  
 
 ### RIPv2 Routing Table Poisoning
 **Сomplexity:** Medium  
 **Relevance:** Medium  
-**Conditions:** RIP implemented; RIPv1 in use; RIPv2 authentication disabled;
+**Conditions:**  
+RIP implemented;  
+RIPv1 in use;  
+RIPv2 authentication disabled.  
 **Description:**  
 There are 3 versions of RIP:
-* **RIPv1**: the first version, described in [RFC 1058](https://tools.ietf.org/html/rfc1058);
-* **RIPv2**: the improved mainly by adding authentication mechanism version, described in [RFC 2453](https://tools.ietf.org/html/rfc2453);
-* **RIPv3** or **RIPng** (next generation): supports IPv6, described in [RFC 2080](https://tools.ietf.org/html/rfc2080).  
+* *RIPv1*: the first version, described in [RFC 1058](https://tools.ietf.org/html/rfc1058);
+* *RIPv2*: the improved mainly by adding authentication mechanism version, described in [RFC 2453](https://tools.ietf.org/html/rfc2453);
+* *RIPv3* or *RIPng* (next generation): supports IPv6, described in [RFC 2080](https://tools.ietf.org/html/rfc2080).  
 
 The most widely implemented protocol is RIPv2. RIPv1 is not secure at all, as it doesn't support message authentication. There is a good [write up](https://digi.ninja/blog/rip_v1.php) on exploiting RIPv1 by injecting a fake route.  
+
 As specified in RFC 2453, RIPv2 router must exchange routing information every 30 seconds. The idea of attack is to send fake RIP Response messages, which contain the route an attacker needs to inject. Though, there is a special multicast for RIPv2 routers - 224.0.0.9, responses, sent as unicast can be accepted, too. This, for example may harden the detection of the attack, comparing to the case of multicast fake routing propagation. There is a good short [write up](https://microlab.red/2018/04/06/practical-routing-attacks-1-3-rip/) on exploting RIPv2 network with no RIPv2 authentication with Scapy usage examle.  
 
 **Attack tools**  
-* [**t50**](https://gitlab.com/fredericopissarra/t50) - a multi-protocol tool for injecting traffic and for network penetration testing. Among many other protocols, it supports RIP and supplies the following parameters to set:  
+* [t50](https://gitlab.com/fredericopissarra/t50) - a multi-protocol tool for injecting traffic and for network penetration testing. Among many other protocols, it supports RIP and supplies the following parameters to set:  
 
-
-	--rip-command NUM         RIPv1/v2 command                 (default 2)  
+	`--rip-command NUM         RIPv1/v2 command                 (default 2)`  
 		Commands can be of type 1 and 2 - it's request and response.  
-	--rip-family NUM          RIPv1/v2 address family          (default 2)  
+	`--rip-family NUM          RIPv1/v2 address family          (default 2)`  
 		The address family identifier. If authentication is in use, the AFI of the first message is 
 		set to 0xFFFF.     
-	--rip-address ADDR        RIPv1/v2 router address          (default RANDOM)  
+	`--rip-address ADDR        RIPv1/v2 router address          (default RANDOM)`  
 		The routers address. The attacker's address in context of injecting routes.
-	--rip-metric NUM          RIPv1/v2 router metric           (default RANDOM)  
-		A number, indicating the distance to the destination. 
-	--rip-domain NUM          RIPv2 router domain              (default RANDOM)  
+	`--rip-metric NUM          RIPv1/v2 router metric           (default RANDOM)`  
+		A number, indicating the distance to the destination.  
+	`--rip-domain NUM          RIPv2 router domain              (default RANDOM)`  
 		It's a number of process, to which the update belongs. Used to assotiate a received update 
-		with an exact process on the receiving router. 0 is the default one. 
-	--rip-tag NUM             RIPv2 router tag                 (default RANDOM)  
+		with an exact process on the receiving router. 0 is the default one.  
+	`--rip-tag NUM             RIPv2 router tag                 (default RANDOM)`  
 		The RIP protocol is not used as exterior routing protocol. This field is meant to carry AS 
-		number for EGP, BGP.
-	--rip-netmask ADDR        RIPv2 router subnet mask         (default RANDOM)  
-		The subnet mask.
-	--rip-next-hop ADDR       RIPv2 router next hop            (default RANDOM)  
+		number for EGP, BGP.  
+	`--rip-netmask ADDR        RIPv2 router subnet mask         (default RANDOM)`  
+		The subnet mask.  
+	`--rip-next-hop ADDR       RIPv2 router next hop            (default RANDOM)`  
 		The next hop. The address of a device to which the packets for the destination should be 
-		forwarded. 
-	--rip-authentication      RIPv2 authentication included    (default OFF)  
-		If authentiction is in use, it should be turned on.	
-	--rip-auth-key-id NUM     RIPv2 authentication key ID      (default 1)  
-		The id of a key in keychain.
-	--rip-auth-sequence NUM   RIPv2 authentication sequence #  (default RANDOM)  
-		A non-decreasing number which is used with one source and key id. 
+		forwarded.  
+	`--rip-authentication      RIPv2 authentication included    (default OFF)`  
+		If authentiction is in use, it should be turned on.  
+	`--rip-auth-key-id NUM     RIPv2 authentication key ID      (default 1)`  
+		The id of a key in keychain.  
+	`--rip-auth-sequence NUM   RIPv2 authentication sequence #  (default RANDOM)`  
+		A non-decreasing number which is used with one source and key id.  
 
   
 **Defence technics**  
 If router is not configured to authenticate RIPv2 messages, it will accept RIPv1 and RIPv2 unauthenticated messages. The most secure configuration in this way is to set up RIPv2 authentication so that router should not be accepting RIPv1 and v2 unauthenticated messages and so making an unauthenticated router unable to inject a route. This mechanism is described in [RFC 2082 - RIP-2 MD5 Authentication](https://tools.ietf.org/html/rfc2082), but, it describes the usage of MD5, which is acknowledged to be a weak hashing function. The better one, which means the use of SHA-1 is described in [RFC 4822 - RIPv2 Cryptographic Authentication](https://tools.ietf.org/html/rfc4822).  
 
 Unfortunately, RIPv2 supports only Plain-text and MD5 Authentication. The first one is useless in case of sniffing the network, MD5 Auth is better in case of a passive attacker, intercepting packets, as it doesn't transfer password in plain text.  
-[The Configuration of RIPv2 Authentication guide](https://www.cisco.com/c/en/us/support/docs/ip/routing-information-protocol-rip/13719-50.html#md5) describes how to set this feature on **Cisco** devices.  
-The guide for setting MD5 authentication for **Mikrotik** is present [here](https://mikrotik.com/documentation/manual_2.6/Routing/RIP.html).
-The guide for setting MD5 authentification on **Juniper** devices is present [here](https://www.juniper.net/documentation/en_US/junos/topics/topic-map/rip-authentication.html).
+[The Configuration of RIPv2 Authentication guide](https://www.cisco.com/c/en/us/support/docs/ip/routing-information-protocol-rip/13719-50.html#md5) describes how to set this feature on *Cisco* devices.  
+The guide for setting MD5 authentication for *Mikrotik* is present [here](https://mikrotik.com/documentation/manual_2.6/Routing/RIP.html).
+The guide for setting MD5 authentification on *Juniper* devices is present [here](https://www.juniper.net/documentation/en_US/junos/topics/topic-map/rip-authentication.html).
 
-Also, ```passive-interface``` feature should be used on the access interfaces, which communicate to end devices.  
-[**Mikrotik's** documentation](https://wiki.mikrotik.com/wiki/Manual:Routing/RIP#Interface) on setting ```passive interface``` feature.  
-[**Cisco's** documentation](https://networklessons.com/cisco/ccna-routing-switching-icnd1-100-105/rip-passive-interface) on setting ```passive interface``` feature.  
-[**Juniper**'s documentation](https://www.juniper.net/documentation/en_US/junose15.1/topics/reference/command-summary/passive-interface.html) on setting ```passive-interface``` feature.  
+Also, `passive-interface` feature should be used on the access interfaces, which communicate to end devices.  
+[Mikrotik's documentation](https://wiki.mikrotik.com/wiki/Manual:Routing/RIP#Interface) on setting `passive interface` feature.  
+[Cisco's documentation](https://networklessons.com/cisco/ccna-routing-switching-icnd1-100-105/rip-passive-interface) on setting `passive interface` feature.  
+[Juniper's documentation](https://www.juniper.net/documentation/en_US/junose15.1/topics/reference/command-summary/passive-interface.html) on setting `passive-interface` feature.  
 
 **Related RFCs:**  
 [RFC 1388 - RIP Version 2 Carrying Additional Information](https://tools.ietf.org/html/rfc1388)  
@@ -359,28 +379,25 @@ Also, ```passive-interface``` feature should be used on the access interfaces, w
 **Conditions:** EIGRP protocol implemented on the network; no EIGRP messages authentication set up  
 **Description:**  
 EIGRP stands for Enhanced Interior Gateway Routing Protocol. It is a proprietary Cisco’s distance vector routing protocol, relying on Diffused Update Algorithm - DUAL. The main purpose of this protocol is to dynamically update the routing table and propagate the routes to other routers.  
-The main security issue is possible in case of spoofing data in **Update** message, e.g. to inject a non-legitimate route. In this case the router's routing table gets changed to make it pass the traffic through the device, controlled by the attacker and so the MitM attack is present.  
+The main security issue is possible in case of spoofing data in *Update* message, e.g. to inject a non-legitimate route. In this case the router's routing table gets changed to make it pass the traffic through the device, controlled by the attacker and so the MitM attack is present.  
 
 **Attack tools**  
-* [**Eigrp Tools**](http://www.hackingciscoexposed.com/?link=tools)  
-A perl script which allows to craft EIGRP packets and send them on network. It even allows set the K1-K4 metrics, all the flags and fields of EIGRP packet. The script requires ``` libnet-rawip-perl``` and ```libnetpacket-perl``` packets to be installed. Some examples of usage:  
+* [Eigrp Tools](http://www.hackingciscoexposed.com/?link=tools)  
+A perl script which allows to craft EIGRP packets and send them on network. It even allows set the K1-K4 metrics, all the flags and fields of EIGRP packet. The script requires `libnet-rawip-perl` and `libnetpacket-perl` packets to be installed. Some examples of usage:  
 
-
-	./eigrp.pl --sniff --iface eth0  
+	`./eigrp.pl --sniff --iface eth0`  
 	  perform a sniff on eth0 interface  
-	./eigrp.pl --file2ip update.dat --source 192.168.7.8  
+	`./eigrp.pl --file2ip update.dat --source 192.168.7.8`  
 	  replay the traffic from file  
-	./eigrp.pl --update --external --as 65534 --source 192.168.7.8  
+	`./eigrp.pl --update --external --as 65534 --source 192.168.7.8`  
 	  send and Update message  
 
-
-* [**EIGRP Security Tool**](https://sourceforge.net/projects/eigrpsectool/)  
+* [EIGRP Security Tool](https://sourceforge.net/projects/eigrpsectool/)  
 A python script, which allows to craft and send different EIGRP packets. The problem is that attempts to launch the script were unsuccessful due to lack of scapy_eigrp module which wasn't found. Also authors didn't write any documentation for the tool even in the 
 [research description](https://docs.google.com/document/d/1ZVNwi5KRkbY_PxMoODTvwSh3qpzdqiRM9Q4qppP2DvE/edit).
 
-* [**t50**](https://gitlab.com/fredericopissarra/t50) - a multi-protocol tool for injecting traffic and for network penetration testing. Among many other protocols, it supports EIGRP traffic manipulating:  
-
-
+* [t50](https://gitlab.com/fredericopissarra/t50) - a multi-protocol tool for injecting traffic and for network penetration testing. Among many other protocols, it supports EIGRP traffic manipulating:  
+```
 	--eigrp-opcode NUM        EIGRP opcode                      (default 1)  
 	--eigrp-flags NUM         EIGRP flags                       (default RANDOM)  
 	--eigrp-sequence NUM      EIGRP sequence #                  (default RANDOM)  
@@ -410,51 +427,50 @@ A python script, which allows to craft and send different EIGRP packets. The pro
 	--eigrp-multicast NUM     EIGRP multicast sequence #       (default RANDOM)  
 	--eigrp-authentication    EIGRP authentication included    (default OFF)  
 	--eigrp-auth-key-id NUM   EIGRP authentication key ID      (default 1)  
-
+```
 
 **Defence techniques**  
 To protect a network from untrusted route propagations, EIGRP provides a mechanism for authenticating router updates. It uses MD5-keyed digest to sign each packet to prevent unauthorized devices from sending updates to the network. It protects legitimate routers from non-legitimate router updates and from router spoofing. The key is just a defined string, which must be set on other devices which are meant to be legitimate. The detailed guide on EIGRP MD5 Authentication setup can be found [here](https://www.cisco.com/c/en/us/support/docs/ip/enhanced-interior-gateway-routing-protocol-eigrp/82110-eigrp-authentication.html#maintask1).  
 
-Unfortunately, MD5 is acknowledged to be a weak hashing algorithm due to hash collisions. Cisco devices also support ```hmac-sha-256``` EIGRP Updates Authentification. The hash collision attack on SHA-256 is much more complex than for MD5. The guide to EIGRP HMAC-SHA-256 Authentication can be found [here](https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/iproute_eigrp/configuration/15-mt/ire-15-mt-book/ire-sha-256.pdf).  
+Unfortunately, MD5 is acknowledged to be a weak hashing algorithm due to hash collisions. Cisco devices also support `hmac-sha-256` EIGRP Updates Authentification. The hash collision attack on SHA-256 is much more complex than for MD5. The guide to EIGRP HMAC-SHA-256 Authentication can be found [here](https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/iproute_eigrp/configuration/15-mt/ire-15-mt-book/ire-sha-256.pdf).  
 
 The stub EIGRP routing area can be set up as it let's determine the types of routes the stub router should receive queries or not. More information on EIGRP Stub Routing can be found [here](https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/iproute_eigrp/configuration/15-mt/ire-15-mt-book/ire-eigrp-stub-rtg.html).  
 
-Another best practice to reduce unwanted traffic in a network is to set up passive interfaces. ```passive-interface``` feature should be set on access interfaces, which communicate not to network devices, but to end devices. The instruction on setting ```passive-interface``` on EIGRP and explaination on how it works is presented in [Cisco's documentation page](https://www.cisco.com/c/en/us/support/docs/ip/enhanced-interior-gateway-routing-protocol-eigrp/13675-16.html).  
+Another best practice to reduce unwanted traffic in a network is to set up passive interfaces. `passive-interface` feature should be set on access interfaces, which communicate not to network devices, but to end devices. The instruction on setting `passive-interface` on EIGRP and explaination on how it works is presented in [Cisco's documentation page](https://www.cisco.com/c/en/us/support/docs/ip/enhanced-interior-gateway-routing-protocol-eigrp/13675-16.html).  
 
 ### ICMP Redirect
 **Сomplexity:** Medium  
 **Relevance:** Medium  
-**Description:**
-
+**Description:**  
 One of the purposes of the ICMP Protocol is to dynamically change the routing table of the end network systems.
-Dynamic remote management routing was originally conceived to prevent possible send a message to a non-optimal route, as well as to increase fault tolerance of the Network as a whole. It was assumed that the network segment can be connected to the Internet  through several routers (not through one as it usually happens). In this case, we can address the external network through any of the nearest routers. For example, to **some_host.site** the shortest route passes through the "router A" and to the **another.site** - through the "router B". 
+Dynamic remote management routing was originally conceived to prevent possible send a message to a non-optimal route, as well as to increase fault tolerance of the Network as a whole. It was assumed that the network segment can be connected to the Internet  through several routers (not through one as it usually happens). In this case, we can address the external network through any of the nearest routers. For example, to *some_host.site* the shortest route passes through the "router A" and to the *another.site* - through the "router B". 
+
 If one of the routers fails, communication with the outside world is possible through another router. 
 As the "ICMP Redirest attack", we change the route to some site (DNS Name) in the routing table of node A (victim) so that the traffic from node A to some site goes through hacker PC
 
-**Conditions of success:**
-
+**Conditions of success:**  
 - The IP address of the new router must be on the same subnet as the attacked host itself.
 - A new route cannot be added for an IP address that is on the same subnet as the host itself.
-- OS must support and process ICMP redirect packets. By default ICMP redirect enabled in Windows (HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\EnableICMPRedirect) and in some Linux distros (cat /proc/sys/net/ipv4/conf/all/accept_redirects)
+- OS must support and process ICMP redirect packets. By default ICMP redirect enabled in Windows (HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\EnableICMPRedirect)  
+and in some Linux distros (cat /proc/sys/net/ipv4/conf/all/accept_redirects)
 
 **Attack tools**
 
-- Responder [link](https://github.com/SpiderLabs/Responder) [some example](https://github.com/SpiderLabs/Responder/blob/master/tools/Icmp-Redirect.py)
-- Hping3 [some example here](https://gist.github.com/githubfoam/91bd46b68c7ee1fe465e9f743a24d140)
-- Mitmf [link](https://github.com/byt3bl33d3r/MITMf)
-- Bettercap [documentation](https://www.bettercap.org/legacy/)
+- [Responder](https://github.com/SpiderLabs/Responder) ([example](https://github.com/SpiderLabs/Responder/blob/master/tools/Icmp-Redirect.py))
+- Hping3 ([example](https://gist.github.com/githubfoam/91bd46b68c7ee1fe465e9f743a24d140))
+- [Mitmf](https://github.com/byt3bl33d3r/MITMf)
+- Bettercap ([documentation](https://www.bettercap.org/legacy/))
 
 **Defence technics**
 
-- Disable icmp redirect [some example here](https://sbmlabs.com/notes/icmp_redirect_attack/)
+- Disable icmp redirect ([example](https://sbmlabs.com/notes/icmp_redirect_attack/))
 
 ## L4+
 
 ### NetBIOS (LLMNR) spoofing
 **Сomplexity:** Low  
 **Relevance:** High  
-**Description:**
-
+**Description:**  
 If a windows client cannot resolve a hostname using DNS, it will use the Link-Local Multicast Name Resolution ([LLMNR](https://docs.microsoft.com/en-us/previous-versions//bb878128(v=technet.10))) protocol to ask neighbouring computers. LLMNR can be used to resolve both IPv4 and IPv6 addresses. 
 
 If this fails, NetBios Name Service ([NBNS](https://wiki.wireshark.org/NetBIOS/NBNS)) will be used. NBNS is a similar protocol to LLMNR that serves the same purpose. The main difference between the two is NBNS works over IPv4 only. 
@@ -463,56 +479,46 @@ The problem of this pretty cool thing is that when LLMNR or NBNS are used to res
 
 The attacker may request NTLM authentication from the victim, which will cause the victim's device to send an NTLM hash, which can then be used for brute force attack.
 
-***Also there is a chance to perform WPAD spoofing.***
+<details>
+ <summary>Also there is a chance to perform WPAD spoofing.</summary>
 
 WPAD spoofing can be referred to as a special case of LLMNR- and NBNS-spoofing. Web Proxy Auto Discovery protocol is used for automatic configuration of HTTP proxy server. 
 
 The device sends an LLMNR/NBNS request with a wpad host, obtains the corresponding IP address and tries to access the wpad.dat file containing information about proxy settings via HTTP.
 
-As a result, an attacker can perform LLMNR/NBNS spoofing and provide the victim with his own wpad.dat file, resulting in all HTTP and HTTPS traffic going through the attacker.
+As a result, an attacker can perform LLMNR/NBNS spoofing and provide the victim with his own wpad.dat file, resulting in all HTTP and HTTPS traffic going through the attacker.</details>
 
-[Quick tutorial to grab clear text credentials](https://www.trustedsec.com/2013/07/wpad-man-in-the-middle-clear-text-passwords/)
-
+[Quick tutorial to grab clear text credentials](https://www.trustedsec.com/2013/07/wpad-man-in-the-middle-clear-text-passwords/)  
 [How Microsoft Windows’s name resolution services work and how they can be abused](https://trelis24.github.io/2018/08/03/Windows-WPAD-Poisoning-Responder/)
-
 
 **Attack tools**
 
-+ ***[Responder](https://github.com/SpiderLabs/Responder)***
-
++ [Responder](https://github.com/SpiderLabs/Responder)  
 It can answer LLMNR and NBNS queries giving its own IP address as the destination for any hostname requested. Responder has support for poisoning WPAD requests and serving a valid wpad.dat PAC file.
 
-+ ***[Mitm6](https://github.com/fox-it/mitm6)***
-
++ [Mitm6](https://github.com/fox-it/mitm6)  
 mitm6 is a pentesting tool  which is designed for WPAD spoofing and credential relaying. 
 
-+ ***[Inveigh](https://github.com/Kevin-Robertson/Inveigh)***
-
++ [Inveigh](https://github.com/Kevin-Robertson/Inveigh)  
 Inveigh is a PowerShell ADIDNS/LLMNR/NBNS/mDNS/DNS spoofer and man-in-the-middle tool designed to assist penetration testers/red teamers that find themselves limited to a Windows system. 
 
-+ ***[Metasploit modules](https://github.com/rapid7/metasploit-framework)***
-
-[auxiliary/spoof/llmnr/llmnr_response](https://www.rapid7.com/db/modules/auxiliary/spoof/llmnr/llmnr_response),
++ [Metasploit modules](https://github.com/rapid7/metasploit-framework)  
+[auxiliary/spoof/llmnr/llmnr_response](https://www.rapid7.com/db/modules/auxiliary/spoof/llmnr/llmnr_response),  
 [auxiliary/spoof/nbns/nbns_response](https://www.rapid7.com/db/modules/auxiliary/spoof/nbns/nbns_response) 
 
 **Defence technics**
 
-+ Disable LLMNR and NBNS. You can do it using [GPO](https://en.wikipedia.org/wiki/Group_Policy)
-
-[how to do it here](http://woshub.com/how-to-disable-netbios-over-tcpip-and-llmnr-using-gpo/)
-
-+ Create DNS entry with “WPAD” that points to the corporate proxy server. So the attacker won’t be able to manipulate the traffic.
-
++ Disable LLMNR and NBNS. You can do it using [GPO](https://en.wikipedia.org/wiki/Group_Policy)  
+([how to do it here](http://woshub.com/how-to-disable-netbios-over-tcpip-and-llmnr-using-gpo/))  
++ Create DNS entry with “WPAD” that points to the corporate proxy server. So the attacker won’t be able to manipulate the traffic.  
 + Disable “Autodetect Proxy Settings”
 
 
 ### DHCP spoofing 
 **Сomplexity:** Moderate  
 **Relevance:** Moderate  
-
-**Description:**
-  
-The purpose of this attack is to **use the attacker's host or device as the default gateway** and to force clients to use a false Domain Name Service (DNS) and a Windows Internet name service (WINS server) configured by the attacker. The attacker's task is to configure a fake DHCP server on the network to provide DHCP addresses to clients and exhausted the pool of IP addresses from other legitimate DHCP servers (DHCP Starvation attack).
+**Description:**    
+The purpose of this attack is to *use the attacker's host or device as the default gateway* and to force clients to use a false Domain Name Service (DNS) and a Windows Internet name service (WINS server) configured by the attacker. The attacker's task is to configure a fake DHCP server on the network to provide DHCP addresses to clients and exhausted the pool of IP addresses from other legitimate DHCP servers (DHCP Starvation attack).
 
 **Conditions of success:**
 
@@ -528,12 +534,12 @@ The purpose of this attack is to **use the attacker's host or device as the defa
 
 **Attack tools for DHCP starvation**
 - [DHCPig](https://github.com/kamorin/DHCPig)
-- nmap to find DHCP server (nmap -n --script=broadcast-dhcp-discover)
-- metasploit modules [some example](https://digi.ninja/metasploit/dns_dhcp.php)
-- use scapy for DHCP starvation attack [example](https://github.com/shreyasdamle/DHCP-Starvation-)
+- nmap to find DHCP server (`nmap -n --script=broadcast-dhcp-discover`)
+- metasploit modules ([example](https://digi.ninja/metasploit/dns_dhcp.php))
+- use scapy for DHCP starvation attack ([example](https://github.com/shreyasdamle/DHCP-Starvation-))
 
 **Attack tools for DHCP spoofing**
- - yersinia [some tutorial](https://kalilinuxtutorials.com/yersinia/)
+ - [yersinia](https://kalilinuxtutorials.com/yersinia/)
  - [mitmf](https://github.com/byt3bl33d3r/MITMf)
  - [Ettercap](https://www.ettercap-project.org/)
  
@@ -546,47 +552,43 @@ The purpose of this attack is to **use the attacker's host or device as the defa
 This is a L2 switch function designed to protect against DHCP attacks. For example, a DHCP spoofing attack or DHCP starvation attack.
 
 On Cisco Switches:
-- ***Switch(config)#ip dhcp snooping vlan 10*** - enable DHCP snooping for vlan10 
-- ***Switch(config)# interface fa 0/1*** - go to the settings of the specific interface
-- ***Switch(config-if)#ip dhcp snooping trust*** - setting up trusted ports on the interface (by default all ports are unreliable, the DHCP server should not be connected to them).
-- ***Switch(config)#ip dhcp-server 10.84.168.253*** - Specify the address of the trusted DHCP server, which is accessible through the trusted port.
+- *Switch(config)#ip dhcp snooping vlan 10* - enable DHCP snooping for vlan10 
+- *Switch(config)# interface fa 0/1* - go to the settings of the specific interface
+- *Switch(config-if)#ip dhcp snooping trust* - setting up trusted ports on the interface (by default all ports are unreliable, the DHCP server should not be connected to them).
+- *Switch(config)#ip dhcp-server 10.84.168.253* - Specify the address of the trusted DHCP server, which is accessible through the trusted port.
 
 **Important.** By default, after enabling DHCP snooping, the switch is enabled to check for MAC address matching. The switch checks whether the MAC address in the DHCP request matches the client's MAC address. If they do not match, the switch discards the packet.
 
-
-**Useful links**
-- [How DHCP works](https://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol)
-- [DHCP wireshark sample](https://wiki.wireshark.org/SampleCaptures?action=AttachFile&do=view&target=dhcp.pcap)
+> [How DHCP works](https://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol)  
+> [DHCP wireshark sample](https://wiki.wireshark.org/SampleCaptures?action=AttachFile&do=view&target=dhcp.pcap)
 
 ### Rogue DHCP (DHCPv6)
 **Сomplexity:** Low  
 **Relevance:** High  
-**Description:**
+**Description:**  
+The Ipv6 client sends a *Solicit* message to the All_DHCP_Relay_Agents_and_Servers address to find available DHCP servers. Any server that can meet the client's requirements responds with an *Advertise* message. The client then chooses one of the servers and sends a *Request* message to the server asking for confirmed assignment of addresses and other configuration information.The server responds with a *Reply* message that contains the confirmed addresses and configuration.  
 
-The Ipv6 client sends a **Solicit** message to the All_DHCP_Relay_Agents_and_Servers address to find available DHCP servers. Any server that can meet the client's requirements responds with an **Advertise** message. The client then chooses one of the servers and sends a **Request** message to the server asking for confirmed assignment of addresses and other configuration information.The server responds with a **Reply** message that contains the confirmed addresses and configuration.
-This schema looks simular to DHCPv4 so the main goal for the attacker is to use fake DHCPv6 server to redirect victims traffic to himself.
+This schema looks simular to DHCPv4 so the main goal for the attacker is to use fake DHCPv6 server to redirect victims traffic to himself.  
+
 The attacker can catch client DHCP solicit message and can actually reply, pretending that he is the DHCPv6 server and assign credentials (such as the DNS address) to be used by victim. 
 
 **Attack tools**
 
-- mitm6 [link](https://github.com/fox-it/mitm6)
-- some scapy python scripts [example](https://cciethebeginning.wordpress.com/2012/01/27/dhcpv6-fake-attack/)
-- snarf [link](https://github.com/purpleteam/snarf)
+- [mitm6](https://github.com/fox-it/mitm6)
+- some scapy python scripts ([example](https://cciethebeginning.wordpress.com/2012/01/27/dhcpv6-fake-attack/))
+- [snarf](https://github.com/purpleteam/snarf)
 
 **Defence technics**
 
-- In cisco devices enable dhcpv6 guard policy [example](https://community.cisco.com/t5/networking-documents/understanding-dhcpv6-guard/ta-p/3147653)
-- disable Ipv6 if you dont use it
-
-
+- In cisco devices enable dhcpv6 guard policy ([example](https://community.cisco.com/t5/networking-documents/understanding-dhcpv6-guard/ta-p/3147653))
+- disable Ipv6 if you don't use it
 
 ## Wireless
 ### Karma attacks (Wi-Fi)
 
 **Сomplexity:** Low  
 **Relevance:** High  
-**Description:**
-
+**Description:**  
 The KARMA attack uses the peculiarities of the clients who send requests to determine which wireless networks are nearby. 
 
 The Wi-Fi Access Point periodically sends a beacon request indicating the network SSID that identifies the Wi-Fi network. When a client receives a beacon frame with an SSID that it remembers, it can be associated with the wireless network.
@@ -594,7 +596,7 @@ Vulnerable client devices broadcast a "preferred network list" (PNL), which cont
 
 As a result, the client connects to a different network than the one the user expects. And now the attacker can perform MITM or other attacks on the client system.
 
-***However, nowadays***, most modern network managers have taken countermeasures against the KARMA attack by switching to passive scanning; instead of arbitrarily sending probe request frames, network managers now wait to receive a beacon frame with a familiar ESSID before associating with a wireless network. While this countermeasure has hampered the effectiveness of the KARMA attack, the second feature exploited by KARMA, the Auto-Connect flag that enables the stations to automatically join previously connected networks, was left intact in almost every modern Operating System.
+*However, nowadays*, most modern network managers have taken countermeasures against the KARMA attack by switching to passive scanning; instead of arbitrarily sending probe request frames, network managers now wait to receive a beacon frame with a familiar ESSID before associating with a wireless network. While this countermeasure has hampered the effectiveness of the KARMA attack, the second feature exploited by KARMA, the Auto-Connect flag that enables the stations to automatically join previously connected networks, was left intact in almost every modern Operating System.
 
 An attacker that can guess the SSID  in the victim device's Preferred Network List, will be able to broadcast the corresponding beacon frame and have that device automatically associate with an attacker-controlled access point. In a more sophisticated version of the attack, the adversary may use a "dictionary" of common SSIDs, that the victim has likely connected to in the past.
 
@@ -602,34 +604,25 @@ An attacker that can guess the SSID  in the victim device's Preferred Network Li
 
 **Attack tools**
 
-+ ***[Wifiphisher](https://github.com/wifiphisher/wifiphisher)***
-
++ *[Wifiphisher](https://github.com/wifiphisher/wifiphisher)*  
 The Rogue Access Point Framework 
 
-+ ***[hostapd-mana](https://github.com/sensepost/hostapd-mana/)***
-
++ *[hostapd-mana](https://github.com/sensepost/hostapd-mana/)*  
 Hostapd-mana is a featureful rogue wifi access point tool. It can be used for a myriad of purposes from tracking and deanonymising devices (aka Snoopy), gathering corporate credentials from devices attempting EAP (aka WPE) or attracting as many devices as possible to connect to perform MitM attacks.
 
-+ ***[WIFI PINEAPPLE](https://shop.hak5.org/products/wifi-pineapple)***
++ *[WIFI PINEAPPLE](https://shop.hak5.org/products/wifi-pineapple)*  
+The rogue access point and WiFi pentest toolkit.  
+How to reinforce the MK5 Karma attack with the Dogma PineAP module [here](https://www.hak5.org/episodes/hak5-gear/the-next-gen-rogue-access-point-pineap).
 
-The rogue access point and WiFi pentest toolkit. 
-
-How to reinforce the MK5 Karma attack with the Dogma PineAP module [here](https://www.hak5.org/episodes/hak5-gear/the-next-gen-rogue-access-point-pineap)
-
-+ ***[FruityWIFI](http://fruitywifi.com/index_eng.html)***
-
-FruityWiFi is an open source tool to audit wireless networks. It allows the user to deploy advanced attacks by directly using the web interface or by sending messages to it.
-
++ *[FruityWIFI](http://fruitywifi.com/index_eng.html)*  
+FruityWiFi is an open source tool to audit wireless networks. It allows the user to deploy advanced attacks by directly using the web interface or by sending messages to it.  
 Initialy the application was created to be used with the Raspberry-Pi, but it can be installed on any Debian based system.
 
 **Defence technics**
 
-+ Pay attention to the Wi-Fi networks that your device connects to.
-
-+ Don't use open wifi in public areas, or use it very sparingly
-
-+ Creating encrypted connections (VPN, etc.)
-
++ Pay attention to the Wi-Fi networks that your device connects to  
++ Don't use open wifi in public areas, or use it very sparingly  
++ Creating encrypted connections (VPN, etc.)  
 
 
 ### Rogue BTS (GSM)
@@ -666,11 +659,11 @@ Instead of the victim connecting directly to a website; the victim connected to 
 
 ***But*** it doesn't work anymore with the advent of HSTS. More precisely, it doesn't work where HSTS is enabled.
 
-HTTP Strict Transport Security ([HSTS](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security)) is a web security policy mechanism that helps to protect websites against protocol downgrade attacks(SSL stripping). It allows web servers to declare that web browsers should interact with it using only secure HTTPS connections, and never via the insecure HTTP protocol. HSTS is an IETF standards track protocol and is specified in RFC 6797.
+HTTP Strict Transport Security ([HSTS](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security)) is a web security policy mechanism that helps to protect websites against protocol downgrade attacks (SSL stripping). It allows web servers to declare that web browsers should interact with it using only secure HTTPS connections, and never via the insecure HTTP protocol. HSTS is an IETF standards track protocol and is specified in RFC 6797.
 
 The HSTS works by the server responding with a special header called Strict-Transport-Security which contains a response telling the client that whenever they reconnect to the site, they must use HTTPS. This response contains a "max-age" field which defines how long this rule should last for since it was last seen.
 
-Also It has ```includeSubDomains```  (optional).
+Also It has `includeSubDomains` (optional).
 If this optional parameter is specified, this rule applies to all of the site's subdomains as well.
 
 But not everyone sets up HSTS the same way.
@@ -688,18 +681,12 @@ Inside the source code of Google Chrome, there is a file which contains a hardco
 
 **Attack tools**
 
-+ [sslstrip](https://github.com/moxie0/sslstrip)
-
++ [sslstrip](https://github.com/moxie0/sslstrip)  
 sslstrip is a MITM tool that implements Moxie Marlinspike's SSL stripping attacks.
 
-+ [sslstrip2](https://github.com/LeonardoNve/sslstrip2)
-
++ [sslstrip2](https://github.com/LeonardoNve/sslstrip2)  
 This is a new version of [Moxie´s SSLstrip] (http://www.thoughtcrime.org/software/sslstrip/) with the new feature to avoid HTTP Strict Transport Security (HSTS) protection mechanism.
 
 **Defence technics**
 
 [For developers - The 6-Step "Happy Path" to HTTPS](https://www.troyhunt.com/the-6-step-happy-path-to-https/)
-
-
-
-
