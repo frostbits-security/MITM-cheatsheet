@@ -44,9 +44,9 @@ A cheat sheet for pentesters and defensive teams about Man In The Middle attacks
 **Сomplexity:** Low  
 **Relevance:** High  
 **Description:**  
-Address Resolution Protocol (ARP) is a  protocol used for resolving IP addresses to machine MAC addresses. All network devices that need to communicate on the network broadcast ARP queries in the system to find out other machines’ MAC addresses.
+Address Resolution Protocol (ARP) designed for resolving IP addresses to MAC addresses. All network devices that need to communicate in the network use broadcast ARP queries to find out other machines’ MAC addresses. 
   
-All the arp spoofing tools use a [gratuitous](http://wiki.wireshark.org/Gratuitous_ARP) arp request. A gratuitous ARP reply is a reply to which no request has been made.
+Almost all arp spoofing tools use a [gratuitous](http://wiki.wireshark.org/Gratuitous_ARP) arp response. A Gratuitous ARP reply is a reply to without a ARP request. 
 
 Despite the effectiveness of gratuitous ARP, it is particularly insecure because it can be used to assure the remote host that the MAC address of a system on the same network has changed and to specify which address is used now.
 
@@ -62,14 +62,12 @@ Despite the effectiveness of gratuitous ARP, it is particularly insecure because
 3. As the computers support gratuitous ARP, they modify their own ARP tables and place records where the MAC address of computer C is instead of the real MAC address of computer A and B.
 </details>
 
-Also there is a chance of successful attack in another way. When you will monitor the arp activity in the network segment and suddenly notice the victim's  arp request, you can try send the arp reply to victim faster than addressee of that request. Some vendors can accept this trick.
+Also there is a chance of successful attack in another way. When you will monitor the arp activity in the network segment and suddenly notice the victim's  arp request, you can try send the arp reply to victim faster than addressee of that request. Some vendors can accept this trick. 
 
 **Attack tools:**
 * [`bettercap`](https://www.bettercap.org/legacy/)` -T 10.10.10.10 -X --httpd --proxy-https --proxy`  
 The old version of the tool is simpler, but there is also a [new](https://github.com/bettercap/bettercap) fashionable one written in Go.
 * [`arpspoof`](http://github.com/smikims/arpspoof)` -i eth0 -t 10.10.10.10`
-* [Cain & Abel](https://github.com/xchwarze/Cain)
-* [Dsniff](https://monkey.org/~dugsong/dsniff/)
 * [Intercepter-NG](http://sniff.su/) (Now it could be installed at Linux) 
 
 **Attack detection**
@@ -84,7 +82,7 @@ Arpwatch via SNMP
 
 **Attack prevention**
 
-* Static MAC addresses implement  
+* Manual ARP tables  
 It has limitation because it will cause difficulties in network scalability. And for wireless network this is a challenge and almost like impossible.
 
 * Patching  
