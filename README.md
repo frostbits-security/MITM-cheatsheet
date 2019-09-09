@@ -328,35 +328,7 @@ The most widely implemented protocol is RIPv2. RIPv1 is not secure at all, as it
 As specified in RFC 2453, RIPv2 router must exchange routing information every 30 seconds. The idea of attack is to send fake RIP Response messages, which contain the route an attacker needs to inject. Though, there is a special multicast for RIPv2 routers - 224.0.0.9, responses, sent as unicast can be accepted, too. This, for example may harden the detection of the attack, comparing to the case of multicast fake routing propagation. There is a good short [write up](https://microlab.red/2018/04/06/practical-routing-attacks-1-3-rip/) on exploting RIPv2 network with no RIPv2 authentication with Scapy usage examle.  
 
 **Attack tools**  
-* [t50](https://gitlab.com/fredericopissarra/t50) - a multi-protocol tool for injecting traffic and for network penetration testing. Among many other protocols, it supports RIP and supplies the following parameters to set:  
-<details> <summary> parameters for RIP </summary>
-	`--rip-command NUM         RIPv1/v2 command                 (default 2)`  
-		Commands can be of type 1 and 2 - it's request and response.  
-	`--rip-family NUM          RIPv1/v2 address family          (default 2)`  
-		The address family identifier. If authentication is in use, the AFI of the first message is 
-		set to 0xFFFF.     
-	`--rip-address ADDR        RIPv1/v2 router address          (default RANDOM)`  
-		The routers address. The attacker's address in context of injecting routes.
-	`--rip-metric NUM          RIPv1/v2 router metric           (default RANDOM)`  
-		A number, indicating the distance to the destination.  
-	`--rip-domain NUM          RIPv2 router domain              (default RANDOM)`  
-		It's a number of process, to which the update belongs. Used to assotiate a received update 
-		with an exact process on the receiving router. 0 is the default one.  
-	`--rip-tag NUM             RIPv2 router tag                 (default RANDOM)`  
-		The RIP protocol is not used as exterior routing protocol. This field is meant to carry AS 
-		number for EGP, BGP.  
-	`--rip-netmask ADDR        RIPv2 router subnet mask         (default RANDOM)`  
-		The subnet mask.  
-	`--rip-next-hop ADDR       RIPv2 router next hop            (default RANDOM)`  
-		The next hop. The address of a device to which the packets for the destination should be 
-		forwarded.  
-	`--rip-authentication      RIPv2 authentication included    (default OFF)`  
-		If authentiction is in use, it should be turned on.  
-	`--rip-auth-key-id NUM     RIPv2 authentication key ID      (default 1)`  
-		The id of a key in keychain.  
-	`--rip-auth-sequence NUM   RIPv2 authentication sequence #  (default RANDOM)`  
-		A non-decreasing number which is used with one source and key id.  
-</details>
+* [t50](https://gitlab.com/fredericopissarra/t50) - a multi-protocol tool for injecting traffic and for network penetration testing. Among many other protocols, it supports RIP.
   
 **Defence technics**  
 If router is not configured to authenticate RIPv2 messages, it will accept RIPv1 and RIPv2 unauthenticated messages. The most secure configuration in this way is to set up RIPv2 authentication so that router should not be accepting RIPv1 and v2 unauthenticated messages and so making an unauthenticated router unable to inject a route. This mechanism is described in [RFC 2082 - RIP-2 MD5 Authentication](https://tools.ietf.org/html/rfc2082), but, it describes the usage of MD5, which is acknowledged to be a weak hashing function. The better one, which means the use of SHA-1 is described in [RFC 4822 - RIPv2 Cryptographic Authentication](https://tools.ietf.org/html/rfc4822).  
@@ -408,40 +380,7 @@ A perl script which allows to craft EIGRP packets and send them on network. It e
 A python script, which allows to craft and send different EIGRP packets. The problem is that attempts to launch the script were unsuccessful due to lack of scapy_eigrp module which wasn't found. Also authors didn't write any documentation for the tool even in the 
 [research description](https://docs.google.com/document/d/1ZVNwi5KRkbY_PxMoODTvwSh3qpzdqiRM9Q4qppP2DvE/edit).
 
-* [t50](https://gitlab.com/fredericopissarra/t50) - a multi-protocol tool for injecting traffic and for network penetration testing. Among many other protocols, it supports EIGRP traffic manipulating:
-<details> <summary> parameters for EIGRP </summary>
-```
-	--eigrp-opcode NUM        EIGRP opcode                      (default 1)  
-	--eigrp-flags NUM         EIGRP flags                       (default RANDOM)  
-	--eigrp-sequence NUM      EIGRP sequence #                  (default RANDOM)  
-	--eigrp-acknowledge NUM   EIGRP acknowledgment #            (default RANDOM)  
-	--eigrp-as NUM            EIGRP autonomous system           (default RANDOM)  
-	--eigrp-type NUM          EIGRP type                        (default 258)  
-	--eigrp-length NUM        EIGRP length                      (default NONE)  
-	--eigrp-k[1,2,3,4, 5] NUM    EIGRP parameter K1,K2,K3,K4,K5 (default 1)  
-	--eigrp-hold NUM          EIGRP parameter hold time        (default 360)  
-	--eigrp-ios-ver NUM.NUM   EIGRP IOS release version        (default 12.4)  
-	--eigrp-rel-ver NUM.NUM   EIGRP PROTO release version      (default 1.2)  
-	--eigrp-next-hop ADDR     EIGRP in/ex ternal next-hop     (default RANDOM)  
-	--eigrp-delay NUM         EIGRP in/ex ternal delay        (default RANDOM)  
-	--eigrp-bandwidth NUM     EIGRP in/ex ternal bandwidth    (default RANDOM)  
-	--eigrp-mtu NUM           EIGRP in/ex ternal MTU          (default 1500)  
-	--eigrp-hop-count NUM     EIGRP in/ex ternal hop count    (default RANDOM)  
-	--eigrp-load NUM          EIGRP in/ex ternal load         (default RANDOM)  
-	--eigrp-reliability NUM   EIGRP in/ex ternal reliability  (default RANDOM)  
-	--eigrp-daddr ADDR/CIDR   EIGRP in/ex ternal address(es)  (default RANDOM)  
-	--eigrp-src-router ADDR   EIGRP external source router     (default RANDOM)  
-	--eigrp-src-as NUM        EIGRP external autonomous system (default RANDOM)  
-	--eigrp-tag NUM           EIGRP external arbitrary tag     (default RANDOM)  
-	--eigrp-proto-metric NUM  EIGRP external protocol metric   (default RANDOM)  
-	--eigrp-proto-id NUM      EIGRP external protocol ID       (default 2)  
-	--eigrp-ext-flags NUM     EIGRP external flags             (default RANDOM)  
-	--eigrp-address ADDR      EIGRP multicast sequence address (default RANDOM)  
-	--eigrp-multicast NUM     EIGRP multicast sequence #       (default RANDOM)  
-	--eigrp-authentication    EIGRP authentication included    (default OFF)  
-	--eigrp-auth-key-id NUM   EIGRP authentication key ID      (default 1)  
-```
-</details>
+* [t50](https://gitlab.com/fredericopissarra/t50) - a multi-protocol tool for injecting traffic and for network penetration testing. Among many other protocols, it supports EIGRP traffic manipulating.
 
 **Defence techniques**  
 To protect a network from untrusted route propagations, EIGRP provides a mechanism for authenticating router updates. It uses MD5-keyed digest to sign each packet to prevent unauthorized devices from sending updates to the network. It protects legitimate routers from non-legitimate router updates and from router spoofing. The key is just a defined string, which must be set on other devices which are meant to be legitimate. The detailed guide on EIGRP MD5 Authentication setup can be found [here](https://www.cisco.com/c/en/us/support/docs/ip/enhanced-interior-gateway-routing-protocol-eigrp/82110-eigrp-authentication.html#maintask1).  
