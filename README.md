@@ -329,7 +329,7 @@ As specified in RFC 2453, RIPv2 router must exchange routing information every 3
 
 **Attack tools**  
 * [t50](https://gitlab.com/fredericopissarra/t50) - a multi-protocol tool for injecting traffic and for network penetration testing. Among many other protocols, it supports RIP and supplies the following parameters to set:  
-
+<details> <summary> parameters for RIP </summary>
 	`--rip-command NUM         RIPv1/v2 command                 (default 2)`  
 		Commands can be of type 1 and 2 - it's request and response.  
 	`--rip-family NUM          RIPv1/v2 address family          (default 2)`  
@@ -356,7 +356,7 @@ As specified in RFC 2453, RIPv2 router must exchange routing information every 3
 		The id of a key in keychain.  
 	`--rip-auth-sequence NUM   RIPv2 authentication sequence #  (default RANDOM)`  
 		A non-decreasing number which is used with one source and key id.  
-
+</details>
   
 **Defence technics**  
 If router is not configured to authenticate RIPv2 messages, it will accept RIPv1 and RIPv2 unauthenticated messages. The most secure configuration in this way is to set up RIPv2 authentication so that router should not be accepting RIPv1 and v2 unauthenticated messages and so making an unauthenticated router unable to inject a route. This mechanism is described in [RFC 2082 - RIP-2 MD5 Authentication](https://tools.ietf.org/html/rfc2082), but, it describes the usage of MD5, which is acknowledged to be a weak hashing function. The better one, which means the use of SHA-1 is described in [RFC 4822 - RIPv2 Cryptographic Authentication](https://tools.ietf.org/html/rfc4822).  
@@ -408,7 +408,8 @@ A perl script which allows to craft EIGRP packets and send them on network. It e
 A python script, which allows to craft and send different EIGRP packets. The problem is that attempts to launch the script were unsuccessful due to lack of scapy_eigrp module which wasn't found. Also authors didn't write any documentation for the tool even in the 
 [research description](https://docs.google.com/document/d/1ZVNwi5KRkbY_PxMoODTvwSh3qpzdqiRM9Q4qppP2DvE/edit).
 
-* [t50](https://gitlab.com/fredericopissarra/t50) - a multi-protocol tool for injecting traffic and for network penetration testing. Among many other protocols, it supports EIGRP traffic manipulating:  
+* [t50](https://gitlab.com/fredericopissarra/t50) - a multi-protocol tool for injecting traffic and for network penetration testing. Among many other protocols, it supports EIGRP traffic manipulating:
+<details> <summary> parameters for EIGRP </summary>
 ```
 	--eigrp-opcode NUM        EIGRP opcode                      (default 1)  
 	--eigrp-flags NUM         EIGRP flags                       (default RANDOM)  
@@ -440,6 +441,7 @@ A python script, which allows to craft and send different EIGRP packets. The pro
 	--eigrp-authentication    EIGRP authentication included    (default OFF)  
 	--eigrp-auth-key-id NUM   EIGRP authentication key ID      (default 1)  
 ```
+</details>
 
 **Defence techniques**  
 To protect a network from untrusted route propagations, EIGRP provides a mechanism for authenticating router updates. It uses MD5-keyed digest to sign each packet to prevent unauthorized devices from sending updates to the network. It protects legitimate routers from non-legitimate router updates and from router spoofing. The key is just a defined string, which must be set on other devices which are meant to be legitimate. The detailed guide on EIGRP MD5 Authentication setup can be found [here](https://www.cisco.com/c/en/us/support/docs/ip/enhanced-interior-gateway-routing-protocol-eigrp/82110-eigrp-authentication.html#maintask1).  
@@ -505,11 +507,11 @@ As a result, an attacker can perform LLMNR/NBNS spoofing and provide the victim 
 
 **Attack tools**
 
-+ [Responder](https://github.com/SpiderLabs/Responder)  
+* [Responder](https://github.com/SpiderLabs/Responder)  
 It can answer LLMNR and NBNS queries giving its own IP address as the destination for any hostname requested. Responder has support for poisoning WPAD requests and serving a valid wpad.dat PAC file.
 
 + [Mitm6](https://github.com/fox-it/mitm6)  
-mitm6 is a pentesting tool  which is designed for WPAD spoofing and credential relaying. 
+mitm6 is a pentesting tool which is designed for WPAD spoofing and credential relaying. 
 
 + [Inveigh](https://github.com/Kevin-Robertson/Inveigh)  
 Inveigh is a PowerShell ADIDNS/LLMNR/NBNS/mDNS/DNS spoofer and man-in-the-middle tool designed to assist penetration testers/red teamers that find themselves limited to a Windows system. 
