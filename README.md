@@ -157,7 +157,7 @@ An attacker acts as a switch in order to trick a legitimate switch into creating
 
 * [`yersinia`](https://github.com/tomac/yersinia)` –G`
 Yersinia has a graphical interface and an interactive console, you need to select network interfaces and launch a MITM attack.  
-The graphical interface does not work stably, so you can use the interactive interface: `yersinia –I`. You will also need a utility for data sniff, for example: [`net-creds`](https://Qithub.com/DanMcInerney/net-creds) (or wireshark).
+The graphical interface does not work stably, so you can use the interactive interface: `yersinia –I`. also you need a tool for [Data sniffing](#data-sniffing). 
 
 + [Scapy](https://scapy.net/)  
 Scapy is a Python program that enables the user to send, sniff and dissect and forge network packets. It can be used to create the specially crafted frames needed for processing this attack.
@@ -194,10 +194,10 @@ Another threat in RA comes from the ability to send DNS configuration over RA, s
 **Attack Tools**  
 
 * [suddensix](https://github.com/Neohapsis/suddensix)  
-It's a script which presets tools used by the security researcher Alec Waters in his [post about SLAAC attack](https://resources.infosecinstitute.com/slaac-attack/).
+It's a script which presets tools used by the security researcher Alec Waters in his [post about SLAAC attack](https://resources.infosecinstitute.com/slaac-attack/). The script is a little bit outdated and working well on Ubuntu 12.04 LTS. It is better to create separated VM for it and also you need a tool for [Data sniffing](#data-sniffing).
 
 * [EvilFOCA](https://github.com/ElevenPaths/EvilFOCA)  
-A C#-written tool with GUI which allows IPv6 attacks, including SLAAC attack, fake DHCPv6 and even SLAAC DoS which means announcing fake routes in multiple RAs on link.
+Amazing tool for windows for IPv6 MITM attacks. A C#-written tool with GUI which allows IPv6 attacks, including SLAAC attack, fake DHCPv6 and even SLAAC DoS which means announcing fake routes in multiple RAs on link.
 
 * [THC-IPv6](https://github.com/vanhauser-thc/thc-ipv6)  
 A written in C IPv6 attack toolkit which, among many other options, allows to perform attacks with RAs.
@@ -641,6 +641,11 @@ Initialy the application was created to be used with the Raspberry-Pi, but it ca
 
 # Attack technics
 ## Data sniffing
+
+**Attack tools:**
+
+* [wireshark](https://www.wireshark.org)
+* [`net-creds`](https://Qithub.com/DanMcInerney/net-creds)
 
 ## Injections in data
 ### Malicious JS in HTML
