@@ -1,6 +1,8 @@
 # MITM-cheatsheet
 We tried to put together all known MITM attacks and methods of protection against these attacks. Here is also contains tools for carrying out MITM attacks, some interesting attack cases and some tricks associated with them.
 
+**Note:**  Almost all attack tools, described here, doesn't have any sniffer inside. It only provides attack. Tools for sniffing here: [Data sniffing](#data-sniffing). 
+
 A cheat sheet for pentesters and defensive teams about Man In The Middle attacks.
 
 ## Table of Contents  
@@ -67,6 +69,7 @@ Also there is a chance of successful attack in another way. When you will monito
 **Attack tools:**
 * [`bettercap`](https://www.bettercap.org/legacy/)` -T 10.10.10.10 -X --httpd --proxy-https --proxy`  
 The old version of the tool is simpler, but there is also a [new](https://github.com/bettercap/bettercap) fashionable one written in Go.
+**Note:** Bettercap have excelent sniffer inside.
 * [`arpspoof`](http://github.com/smikims/arpspoof)` -i eth0 -t 10.10.10.10`
 * [Intercepter-NG](http://sniff.su/) (Now it could be installed at Linux) 
 
@@ -113,7 +116,7 @@ Caution: Often this type of attack leads to a denial of service.
 
 * [`yersinia`](https://github.com/tomac/yersinia)` –G`
 Yersinia has a graphical interface and an interactive console, you need to select network interfaces and launch a MITM attack.  
-The graphical interface does not work stably, so you can use the interactive interface: `yersinia –I`. You will also need a utility for data sniff, for example: [`net-creds`](https://Qithub.com/DanMcInerney/net-creds) (or wireshark).  
+The graphical interface does not work stably, so you can use the interactive interface: `yersinia –I`.
 * [`ettercap`](http://ettercap.qithub.lo/ettercap/downloads.html)  
 One more tool for Linux. You need to select the interfaces, then tap "stp mangier" plugin and start it.
 
@@ -157,16 +160,13 @@ An attacker acts as a switch in order to trick a legitimate switch into creating
 
 * [`yersinia`](https://github.com/tomac/yersinia)` –G`
 Yersinia has a graphical interface and an interactive console, you need to select network interfaces and launch a MITM attack.  
-The graphical interface does not work stably, so you can use the interactive interface: `yersinia –I`. also you need a tool for [Data sniffing](#data-sniffing). 
+The graphical interface does not work stably, so you can use the interactive interface: `yersinia –I`. 
 
-+ [Scapy](https://scapy.net/)  
+* [Scapy](https://scapy.net/)  
 Scapy is a Python program that enables the user to send, sniff and dissect and forge network packets. It can be used to create the specially crafted frames needed for processing this attack.
 
-+ [DTP-spoof](https://github.com/fleetcaptain/dtp-spoof)  
+* [`dtp-spoof.py`](https://github.com/fleetcaptain/dtp-spoof)` -i eth0` sends a DTP Trunk packet out eth0 using eth0's mac address
 DTP-spoof is a security tool to test the Dynamic Trunking Protocol (DTP) configuration of switches. If the target switch is configured to negotiate the port mode, you can potentially set the target switch's port to Trunk mode, thereby gaining access to additional VLANs.  
-Example:  
-`python dtp-spoof.py -i eth0` sends a DTP Trunk packet out eth0 using eth0's mac address
-
 **Defence technics**
 
 1. The primary VLAN Hopping attack (using DTP)  
@@ -194,7 +194,7 @@ Another threat in RA comes from the ability to send DNS configuration over RA, s
 **Attack Tools**  
 
 * [suddensix](https://github.com/Neohapsis/suddensix)  
-It's a script which presets tools used by the security researcher Alec Waters in his [post about SLAAC attack](https://resources.infosecinstitute.com/slaac-attack/). The script is a little bit outdated and working well on Ubuntu 12.04 LTS. It is better to create separated VM for it and also you need a tool for [Data sniffing](#data-sniffing).
+It's a script which presets tools used by the security researcher Alec Waters in his [post about SLAAC attack](https://resources.infosecinstitute.com/slaac-attack/). The script is a little bit outdated and working well on Ubuntu 12.04 LTS. It is better to create separated VM for it.
 
 * [EvilFOCA](https://github.com/ElevenPaths/EvilFOCA)  
 Amazing tool for windows for IPv6 MITM attacks. A C#-written tool with GUI which allows IPv6 attacks, including SLAAC attack, fake DHCPv6 and even SLAAC DoS which means announcing fake routes in multiple RAs on link.
