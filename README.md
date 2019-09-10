@@ -6,7 +6,7 @@ A cheat sheet for pentesters and defensive teams about Man In The Middle attacks
 ## Table of Contents  
 * [L2](#l2)  
 	* [Arp spoofing](#arp-spoofing)
-	* [STP(RSTP, PVSTP, MSTP) spoofing](#stprstp-pvstp-mstp-spoofing) :hourglass_flowing_sand:  
+	* [STP(RSTP, PVSTP, MSTP) spoofing](#stprstp-pvstp-mstp-spoofing)   
 	* [NDP spoofing](#ndp-spoofing) :hourglass_flowing_sand:  
 	* [VLAN hopping](#vlan-hopping)  
 * [L3](#l3)  
