@@ -453,7 +453,11 @@ It can answer LLMNR and NBNS queries giving its own IP address as the destinatio
 mitm6 is a pentesting tool which is designed for WPAD spoofing and credential relaying. 
 
 + [Inveigh](https://github.com/Kevin-Robertson/Inveigh)  
-Inveigh is a PowerShell ADIDNS/LLMNR/NBNS/mDNS/DNS spoofer and man-in-the-middle tool designed to assist penetration testers/red teamers that find themselves limited to a Windows system. 
+Inveigh is a PowerShell ADIDNS/LLMNR/NBNS/mDNS/DNS spoofer and man-in-the-middle tool designed to assist penetration testers/red teamers that find themselves limited to a Windows system.
+	```powershell
+	Import-Module .\Inveigh.psd1
+	Invoke-Inveigh -NBNS Y -mDNS Y -FileOutput Y -ConsoleOutput Y -SMB Y 
+	``` 
 
 + [Metasploit modules](https://github.com/rapid7/metasploit-framework)  
 [auxiliary/spoof/llmnr/llmnr_response](https://www.rapid7.com/db/modules/auxiliary/spoof/llmnr/llmnr_response),  
