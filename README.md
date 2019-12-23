@@ -603,7 +603,7 @@ Initialy the application was created to be used with the Raspberry-Pi, but it ca
 # Hacker notes
 ## Difference between technology stack (or why most of that attack imposible from your notebook)
 Thanks to [@serjepatoff](https://github.com/serjepatoff) for explanation:  
-Network equipment have the same general–purpose CPUs. MIPS or ARM for basic SOHO routers, multicore x86 in more serious boxes. It's the NIC with multiple hardware queues and special methods of NIC<->software communication (explicit ring–buffering, heavy use of DMA) that make a difference.
+Network equipment has the same general-purpose CPUs. MIPS or ARM for basic SOHO routers, multicore x86 in more serious boxes. It's the NIC with multiple hardware queues and special methods of NIC<->software communication (explicit ring–buffering, heavy use of DMA) that make a difference.
 
 So you can't just connect to the network and turn on the spoofing, it can put the network down right away. Your small notebook network adapter simply cannot cope with a large data stream and will start to drop them. You need to choose the optimal number of hosts that you can spoof at the same time(~<4).
 
