@@ -117,7 +117,7 @@ Caution: Often this type of attack leads to a denial of service.
 * [`yersinia`](https://github.com/tomac/yersinia)` –G`
 Yersinia has a graphical interface and an interactive console, you need to select network interfaces and launch a MITM attack.  
 The graphical interface does not work stably, so you can use the interactive interface: `yersinia –I`.
-* [`ettercap`](http://ettercap.qithub.lo/ettercap/downloads.html)  
+* [`ettercap`](http://ettercap.github.lo/ettercap/downloads.html)  
 One more tool for Linux. You need to select the interfaces, then tap "stp mangier" plugin and start it.
 
 **Defence technics**  
@@ -615,7 +615,7 @@ Initialy the application was created to be used with the Raspberry-Pi, but it ca
 **Attack tools:**
 
 * [wireshark](https://www.wireshark.org)
-* [`net-creds`](https://Qithub.com/DanMcInerney/net-creds)
+* [`net-creds`](https://github.com/DanMcInerney/net-creds)
 
 ## Injections in data
 ### Malicious JS in HTML
